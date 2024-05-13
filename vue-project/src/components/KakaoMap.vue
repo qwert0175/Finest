@@ -35,6 +35,10 @@
     // 지도 객체를 등록합니다.
     // 지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
     map = new kakao.maps.Map(container, options);
+
+    // 줌 컨트롤
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     
     // 장소 검색 객체를 생성합니다
     const ps = new kakao.maps.services.Places(map); 
@@ -68,6 +72,12 @@
 
     // 지도 드래그 이벤트 발생시
     kakao.maps.event.addListener(map, 'dragend', function() {
+      // 은행 재검색
+      ps.categorySearch('BK9', placesSearchCB, {useMapBounds:true});
+    });
+
+    // 지도 확대/축소 이벤트 발생시
+    kakao.maps.event.addListener(map, 'zoom_changed', function() {     
       // 은행 재검색
       ps.categorySearch('BK9', placesSearchCB, {useMapBounds:true});
     });
