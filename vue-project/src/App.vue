@@ -1,10 +1,6 @@
 <template>
   <div>
     <NavBar />
-    <!-- <RouterLink to="/">home</RouterLink> | 
-    <RouterLink to="/mapview">은행지도</RouterLink> | 
-    <RouterLink to="/communityview">커뮤니티</RouterLink> -->
-
     <RouterView />
   </div>
 </template>
