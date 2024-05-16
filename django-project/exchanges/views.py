@@ -29,6 +29,9 @@ def getExchangeInfo(request):
             return Response({'message': '데이터가 존재하지 않습니다.'})
         for data in datas:
             data['deal_bas_r'] = float(data['deal_bas_r'].replace(',',''))
+            if '(100)' in data['cur_unit']:
+                data['cur_unit'] = data['cur_unit'].replace('(100)','')
+                data['deal_bas_r'] = data['deal_bas_r'] / 100
         serializer = ExchangeSerializer(data=datas, many=True)
         if serializer.is_valid():
             serializer.save()

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import MapView from '@/views/MapView.vue'
+import ProductView from '@/views/ProductView.vue'
+import RecommendView from '@/views/RecommendView.vue'
 import CommunityView from '@/views/CommunityView.vue'
 
 const router = createRouter({
@@ -15,6 +17,16 @@ const router = createRouter({
       path: '/mapview',
       name: 'mapview',
       component: MapView
+    },
+    {
+      path: '/productview',
+      name: 'productview',
+      component: ProductView
+    },
+    {
+      path: '/recommendview',
+      name: 'recommendview',
+      component: RecommendView
     },
     {
       path: '/communityview',

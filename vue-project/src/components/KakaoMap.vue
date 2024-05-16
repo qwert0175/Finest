@@ -1,6 +1,7 @@
 <template>
     <div>
       <div id="map"></div>
+      <button v-if="(locationStore.latitude !== null) && (locationStore.longitude !== null)" @click="setCenter">처음위치로 이동</button>
     </div>
   </template>
   
@@ -85,6 +86,16 @@
       ps.categorySearch('BK9', placesSearchCB, {useMapBounds:true});
     });
   };
+
+  
+
+  function setCenter() {            
+    // 이동할 위도 경도 위치를 생성합니다 
+    var moveLatLon = new kakao.maps.LatLng(locationStore.latitude, locationStore.longitude);
+      
+    // 지도 중심을 이동 시킵니다
+    map.setCenter(moveLatLon);
+  }
   
   </script>
 

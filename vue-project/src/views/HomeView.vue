@@ -1,25 +1,29 @@
 <template>
     <div class="home row">
         <div class="top-container row">
-            <div class="event-banner col-12 col-lg-9 p-0">
+            <div class="event-banner col-12 col-lg-8 p-0">
                 <EventBanner />
             </div>
-            <div class="exchange-calculator col-12 col-lg-3 p-0 pr-0">
+            <div class="exchange-calculator col-12 col-lg-4 p-0">
                 <ExchangeCalculator />
             </div>
         </div>
         <div class="middle-container d-flex">
-            <div class="middle-item">
-                <p>상품정보 조회</p>
-            </div>
+            <RouterLink class="nav-link" to="/productview">
+                <div class="middle-item product">
+                    <p>상품정보 조회</p>
+                </div>
+            </RouterLink>
             <RouterLink class="nav-link" to="/mapview">
-                <div class="middle-item"> 
+                <div class="middle-item map"> 
                     <p>주변은행 찾기</p>
                 </div>
             </RouterLink>
-            <div class="middle-item">
-                <p>상품 추천 페이지</p>
-            </div>
+            <RouterLink class="nav-link" to="/recommendview">
+                <div class="middle-item recommend">
+                    <p>상품 추천 페이지</p>
+                </div>
+            </RouterLink>
         </div>
         <div class="bottom-container d-flex">
             <div class="product-info">
@@ -39,7 +43,7 @@ import ExchangeCalculator from '@/components/ExchangeCalculator.vue';
 
 <style scoped>
 .row {
-    padding: 0;
+    --bs-gutter-x: 0;
 }
 
 .middle-container {
@@ -51,16 +55,30 @@ import ExchangeCalculator from '@/components/ExchangeCalculator.vue';
 
 .middle-item {
     color: white;
-    background-color: #1F2261;
+    /* background-color: #1F2261; */
     text-align: center;
     align-content: center;
     width: 250px;
     height: 200px;
-    border-radius: 20px;
 }
 
 .middle-item p {
     margin: 0
+}
+
+.product {
+    background-color: #3751FE;
+    border-radius: 20px;
+}
+
+.map {
+    background-color: #E47643;
+    border-radius: 20px;
+}
+
+.recommend {
+    background-color: black;
+    border-radius: 20px;
 }
 
 .bottom-container {
