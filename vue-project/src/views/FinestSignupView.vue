@@ -48,6 +48,7 @@ const goToFinestSignUpView = function () {
         })
         .catch(err => {
             console.log('회원가입 실패')
+            alert('에러')
         })
 }
 </script>
