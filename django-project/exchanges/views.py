@@ -20,7 +20,7 @@ def getExchangeInfo(request):
         for i in range(7):
             today = datetime.now() - timedelta(i)
             API_KEY = 'ILRkFGOHTVonQF47rmDk9ApE36iifjCw'
-            url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={API_KEY}&searchdate={DateFormat(today).format('Ymd')}&data=AP01'
+            url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={API_KEY}&searchdate={DateFormat(today).format("Ymd")}&data=AP01'
             response = requests.get(url)
             datas = response.json()
             if datas != []:
