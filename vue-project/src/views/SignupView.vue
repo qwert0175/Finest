@@ -38,10 +38,6 @@
   font-weight: 700;
 }
 
-/* .signup-button-container {
-  margin-top: 200px;
-} */
-
 .signup-button {
   margin: 50px;
 }
