@@ -29,10 +29,23 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
+    # APP
+    'accounts',
     'exchanges',
+
+    # DRF
     'rest_framework',
+    'rest_framework.authtoken',
+
+    # REST_AUTH
+    'dj_rest_auth',
+    'allauth',
+    'allauth.account',
+
+    # social login 필요 시 추가
+    'django.contrib.sites',
+    'allauth.socialaccount',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,15 +55,39 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# social login 필요 시 추가
+SITE_ID = 1
+
+# DRF auth settings
+# Token 인증을 기본으로 사용하도록 설정
+REST_FRAMEWORK = {
+    # Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # permission
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 추가함
+    'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5173',
+    'http://localhost:5173',
 ]
 
 ROOT_URLCONF = 'finest.urls'
@@ -126,7 +163,15 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173',
-    'http://localhost:5173',
-]
+# 사용자 수정
+AUTH_USER_MODEL = 'accounts.User'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = None
+
+AUTHENTICATION_BACKENDS = (
+    # django 기본 인증 백엔드
+    "django.contrib.auth.backends.ModelBackend",
+    # django-allauth 패키지에서 제공하는 인증 백엔드 클래스.
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
