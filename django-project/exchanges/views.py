@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils.dateformat import DateFormat
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -17,11 +17,16 @@ def getExchangeInfo(request):
             serializer.save()
         return Response(serializer.data)
     elif request.method == 'POST':
-        today = DateFormat(datetime.now()).format('Ymd')
-        API_KEY = 'ILRkFGOHTVonQF47rmDk9ApE36iifjCw'
-        url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={API_KEY}&searchdate={today}&data=AP01'
-        response = requests.get(url)
-        datas = response.json()
+        for i in range(7):
+            today = datetime.now() - timedelta(i)
+            API_KEY = 'ILRkFGOHTVonQF47rmDk9ApE36iifjCw'
+            url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={API_KEY}&searchdate={DateFormat(today).format('Ymd')}&data=AP01'
+            response = requests.get(url)
+            datas = response.json()
+            if datas != []:
+                break
+        if datas == []:
+            return Response({'message': '데이터가 존재하지 않습니다.'})
         for data in datas:
             data['deal_bas_r'] = float(data['deal_bas_r'].replace(',',''))
         serializer = ExchangeSerializer(data=datas, many=True)
