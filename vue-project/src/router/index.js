@@ -5,6 +5,7 @@ import MapView from '@/views/MapView.vue'
 import ProductView from '@/views/ProductView.vue'
 import RecommendView from '@/views/RecommendView.vue'
 import CommunityView from '@/views/CommunityView.vue'
+import FinestSignupView from '@/views/FinestSignupView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,8 +16,8 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/signup',
-      name: 'signup',
+      path: '/signupview',
+      name: 'signupview',
       component: SignupView
     },
     {
@@ -39,6 +40,11 @@ const router = createRouter({
       name: 'communityview',
       component: CommunityView
     },
+    {
+      path: '/finestsignupview',
+      name: 'finestsignupview',
+      component: FinestSignupView
+    }
     // {
     //   path: '/about',
     //   name: 'about',

@@ -7,7 +7,9 @@
     </div>
     <div class="signup-button-container">
       <div class="signup-button">
-        <img src="@/assets/img/signup_finest.jpg" alt="signup_finest">
+        <RouterLink to="finestsignupview">
+          <img src="@/assets/img/signup_finest.jpg" alt="signup_finest">
+        </RouterLink>
       </div>
       <div class="signup-button">
         <img src="@/assets/img/signup_google.jpg" alt="signup_google">
