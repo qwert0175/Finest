@@ -4,17 +4,17 @@
             <p>Finest 회원가입</p>
         </div>
         <form class="finest-signup-form" @submit.prevent="goToFinestSignUpView">
-            <label for="username">이름</label>
-            <input type="text" id="username" v-model.trim="username"><br>
+            <label for="username">닉네임(10자 제한)</label>
+            <input type="text" id="username" maxlength="10" v-model.trim="username"><br>
             
             <label for="email">이메일</label>
             <input type="text" id="email" v-model.trim="email"><br>
             
-            <label for="password1">비밀번호</label>
-            <input type="password" id="password" v-model.trim="password1"><br>
+            <label for="password1">비밀번호(8자~15자 이내)</label>
+            <input type="password" id="password" maxlength="15" v-model.trim="password1"><br>
 
             <label for="password2">비밀번호 확인</label>
-            <input type="password" id="password-confirm" v-model.trim="password2">
+            <input type="password" id="password-confirm" maxlength="15" v-model.trim="password2">
 
             <input class="finest-signup-button" type="submit" value="Finest 가입하기">
         </form>
@@ -45,12 +45,14 @@
           }
       })
           .then(res => {
-              console.log('회원가입 성공')
+              console.log(res)
               router.push({name: 'homeview'})
           })
           .catch(err => {
-              console.log('회원가입 실패')
-              alert('에러')
+              console.log(err)
+              for (const e in err.response.data) {
+                alert(err.response.data[e])
+              }
           })
   }
   </script>
