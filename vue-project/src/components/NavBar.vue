@@ -19,7 +19,7 @@
       <div class="d-flex">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <RouterLink class="nav-link" to="/login">로그인</RouterLink>
+                <RouterLink class="nav-link" to="/loginview">로그인</RouterLink>
             </li>
             <li class="nav-item">
                 <RouterLink class="nav-link" to="/signupview">회원가입</RouterLink>
