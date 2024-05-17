@@ -15,7 +15,9 @@
             <a href="">Forgot Password?</a>
             <div class="button-container">
                 <input type="submit" class="login-button" value="로그인">
-                <button class="signup-button">회원가입</button>
+                <RouterLink class="nav-link" to="/signupview">
+                    <button class="signup-button">회원가입</button>
+                </RouterLink>
             </div>
         </form>
     </div>
@@ -79,7 +81,7 @@
     position: relative;
     margin: 0 auto;
     font-family: Arial, sans-serif;
-    width: 624px;
+    width: 416px;
 }
 
 .label-text {

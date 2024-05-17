@@ -4,16 +4,16 @@
             <p>Finest 회원가입</p>
         </div>
         <form class="finest-signup-form" @submit.prevent="goToFinestSignUpView">
-            <label for="username">이름 : </label>
+            <label for="username">이름</label>
             <input type="text" id="username" v-model.trim="username"><br>
             
-            <label for="email">이메일 : </label>
+            <label for="email">이메일</label>
             <input type="text" id="email" v-model.trim="email"><br>
             
-            <label for="password1">비밀번호 : </label>
+            <label for="password1">비밀번호</label>
             <input type="password" id="password" v-model.trim="password1"><br>
 
-            <label for="password2">비밀번호 확인 : </label>
+            <label for="password2">비밀번호 확인</label>
             <input type="password" id="password-confirm" v-model.trim="password2">
 
             <input class="finest-signup-button" type="submit" value="Finest 가입하기">

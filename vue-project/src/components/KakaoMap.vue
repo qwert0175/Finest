@@ -33,7 +33,7 @@
     const options = {
       // center: new kakao.maps.LatLng(35.20916389, 128.9829083),
       center: new kakao.maps.LatLng(locationStore.latitude, locationStore.longitude),
-      level: 6,
+      level: 5,
     };
   
     // 지도 객체를 등록합니다.
@@ -45,7 +45,7 @@
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
     
     // 장소 검색 객체를 생성합니다
-    var ps = new kakao.maps.services.Places(map); 
+    var ps = new kakao.maps.services.Places(map);
 
     // 카테고리로 은행을 검색합니다
     ps.categorySearch('BK9', placesSearchCB, {useMapBounds:true});
