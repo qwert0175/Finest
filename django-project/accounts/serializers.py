@@ -1,17 +1,19 @@
+from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from .models import User, DetailUser
+from .models import User
 
-User = get_user_model()
+class CustomRegisterSerializer(RegisterSerializer):
+    username = serializers.CharField(required=True, max_length=10)
+    nickname = serializers.CharField(required=True, max_length=10)
+    email = serializers.EmailField(required=True)
 
-class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email')
+        fields = ('username', 'nickname', 'email', 'password1', 'password2')
 
-class UserDetailSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only = True)
-    
-    class Meta:
-        model = DetailUser
-        fields = '__all__'
+    def get_cleaned_data(self):
+        data = super().get_cleaned_data()
+        data['username'] = self.validated_data.get('username', '')
+        data['nickname'] = self.validated_data.get('nickname', '')
+        data['email'] = self.validated_data.get('email', '')
+        return data

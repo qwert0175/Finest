@@ -1,9 +1,7 @@
-from django.urls import path
-from . import views
+# from django.urls import path
+# from . import views
 
-appname = 'api/v1/accounts'
-urlpatterns = [
-    path('userdetail/', views.userDetail_list),
-    path('withdraw/', views.delete_user),
-    path('checkUserID/', views.checkUserID)
-]
+# appname = 'accounts'
+# urlpatterns = [
+#   path('signup/', views.signup, name='signup'),
+# ]
