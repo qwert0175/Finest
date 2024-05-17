@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from django.utils.dateformat import DateFormat
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 from .serializers import ExchangeSerializer
 from .models import Exchange
 import requests
@@ -35,4 +36,4 @@ def getExchangeInfo(request):
         serializer = ExchangeSerializer(data=datas, many=True)
         if serializer.is_valid():
             serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data,status=status.HTTP_200_OK)
