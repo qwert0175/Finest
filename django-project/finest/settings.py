@@ -175,3 +175,9 @@ AUTHENTICATION_BACKENDS = (
     # django-allauth 패키지에서 제공하는 인증 백엔드 클래스.
     "allauth.account.auth_backends.AuthenticationBackend",
 )
+
+# REST-AUTH 회원가입 기본 Serailizer 재정의
+# REST_AUTH = {
+#  'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+#  'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
+# }
