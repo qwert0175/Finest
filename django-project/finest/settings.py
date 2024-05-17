@@ -59,20 +59,6 @@ INSTALLED_APPS = [
 # social login 필요 시 추가
 SITE_ID = 1
 
-# DRF auth settings
-# Token 인증을 기본으로 사용하도록 설정
-REST_FRAMEWORK = {
-    # Authentication
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    # permission
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-}
-
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -176,3 +162,21 @@ AUTHENTICATION_BACKENDS = (
     # django-allauth 패키지에서 제공하는 인증 백엔드 클래스.
     "allauth.account.auth_backends.AuthenticationBackend",
 )
+
+# Token 인증을 기본으로 사용하도록 설정
+REST_FRAMEWORK = {
+    # Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # permission
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+}
+
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
