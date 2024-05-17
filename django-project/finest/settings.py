@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     # APP
     'accounts',
     'exchanges',
+    'products',
 
     # DRF
     'rest_framework',
