@@ -38,16 +38,18 @@ INSTALLED_APPS = [
     # DRF
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 
     # REST_AUTH
     'dj_rest_auth',
     'allauth',
     'allauth.account',
+    'dj_rest_auth.registration',
 
-    # social login 필요 시 추가
+    # social login
     'django.contrib.sites',
     'allauth.socialaccount',
-    'corsheaders',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,8 +58,36 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-# social login 필요 시 추가
+# social login
 SITE_ID = 1
+
+# DRF auth settings
+REST_FRAMEWORK = {
+    # Token 인증을 기본으로 사용하도록 설정
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+REST_AUTH = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailSerializer',
+}
+
+ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
+
+# User Model
+AUTH_USER_MODEL = 'accounts.User'
+
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = None
+
+# AUTHENTICATION_BACKENDS = (
+#     # django 기본 인증 백엔드
+#     "django.contrib.auth.backends.ModelBackend",
+#     # django-allauth 패키지에서 제공하는 인증 백엔드 클래스.
+#     "allauth.account.auth_backends.AuthenticationBackend",
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,6 +106,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:5173',
 ]
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ROOT_URLCONF = 'finest.urls'
 
@@ -145,38 +177,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = BASE_DIR / 'media'
+
+MEDIA_URL = 'media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# 사용자 수정
-AUTH_USER_MODEL = 'accounts.User'
-
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = None
-
-AUTHENTICATION_BACKENDS = (
-    # django 기본 인증 백엔드
-    "django.contrib.auth.backends.ModelBackend",
-    # django-allauth 패키지에서 제공하는 인증 백엔드 클래스.
-    "allauth.account.auth_backends.AuthenticationBackend",
-)
-
-# Token 인증을 기본으로 사용하도록 설정
-REST_FRAMEWORK = {
-    # Authentication
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
-    # permission
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-}
-
-REST_AUTH_REGISTER_SERIALIZERS = {
-    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
-}
-
-ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
