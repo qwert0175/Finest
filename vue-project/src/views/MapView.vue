@@ -4,13 +4,26 @@
       <p class="page-title-text">은행지도</p>
     </div>
     <div class="map-container">
-      <KakaoMap />
+      <div>
+        <div>
+          <button class="map-option" :class="{ onSelectMode: mapMode === 1 }" @click="changeMapMode(1)">위치 검색</button>
+          <button class="map-option" :class="{ onSelectMode: mapMode === 2 }" @click="changeMapMode(2)">주변 은행</button>
+        </div>
+        <SearchMap v-if="mapMode === 1"/>
+        <KakaoMap v-else-if="mapMode === 2"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import {ref} from 'vue'
 import KakaoMap from '@/components/KakaoMap.vue';
+import SearchMap from '@/components/SearchMap.vue';
+const mapMode = ref(1)
+const changeMapMode = (mode) => {
+  mapMode.value = mode
+}
 </script>
   
 <style scoped>
@@ -32,5 +45,17 @@ import KakaoMap from '@/components/KakaoMap.vue';
   display: flex;
   justify-content: center;
   padding: 50px;
+}
+
+.map-option {
+  color: white;
+  background-color: #E47643;
+  border: 1px solid black;
+  border-radius: 7px 7px 0px 0px;
+  padding: 10px;
+}
+
+.onSelectMode {
+  background-color: #008000;
 }
 </style>
