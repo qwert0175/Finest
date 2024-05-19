@@ -10,12 +10,12 @@ UserModel = get_user_model()
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(required=True, allow_blank=False, max_length=10)
     email = serializers.EmailField(required=False, allow_blank=True)
-    age = serializers.CharField(required=False, allow_blank=False, max_length=2, validators=[MinLengthValidator(1)])
-    birthday = serializers.CharField(required=False, allow_blank=False, max_length=8, validators=[MinLengthValidator(8)])
-    gender = serializers.CharField(required=False, allow_blank=False, max_length=1, validators=[MinLengthValidator(1)])
-    salary = serializers.CharField(required=False, allow_blank=True, max_length=13)
-    asset = serializers.CharField(required=False, allow_blank=True, max_length=13)
-    debt = serializers.CharField(required=False, allow_blank=True, max_length=13)
+    gender = serializers.ChoiceField(required=False, allow_blank=True, choices=User.GENDER_CHOICES)
+    age = serializers.IntegerField(required=False, max_value=99)
+    birthday = serializers.DateField(required=False)
+    salary = serializers.IntegerField(required=False, max_value=999999999999)
+    asset = serializers.IntegerField(required=False, max_value=999999999999)
+    debt = serializers.IntegerField(required=False, max_value=999999999999)
     profile_image = serializers.ImageField(required=False, use_url=True)    
     # deposit = serializers.IntegerField(required=False)
     # saving = serializers.IntegerField(required=False,)
@@ -26,9 +26,9 @@ class CustomRegisterSerializer(RegisterSerializer):
             'password1': self.validated_data.get('password1', ''),
             'email': self.validated_data.get('email', ''),
             'nickname': self.validated_data.get('nickname', ''),
-            'age': self.validated_data.get('age', ''),
-            'birthday': self.validated_data.get('birthday', ''),
             'gender': self.validated_data.get('gender', ''),
+            'age': self.validated_data.get('age', None),
+            'birthday': self.validated_data.get('birthday', None),
             'salary': self.validated_data.get('salary', None),
             'asset': self.validated_data.get('asset', None),
             'debt': self.validated_data.get('debt', None),
@@ -52,12 +52,12 @@ class CustomUserDetailSerializer(UserDetailsSerializer):
             extra_fields.append('last_name')
         if hasattr(UserModel, 'nickname'):
             extra_fields.append('nickname')
+        if hasattr(UserModel, 'gender'):
+            extra_fields.append('gender')
         if hasattr(UserModel, 'age'):
             extra_fields.append('age')
         if hasattr(UserModel, 'birthday'):
             extra_fields.append('birthday')
-        if hasattr(UserModel, 'gender'):
-            extra_fields.append('gender')
         if hasattr(UserModel, 'salary'):
             extra_fields.append('salary')
         if hasattr(UserModel, 'asset'):
