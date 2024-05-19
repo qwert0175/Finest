@@ -15,9 +15,9 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         username = data.get("username")
         # 필드 추가
         nickname = data.get("nickname")
+        gender = data.get("gender")
         age = data.get("age")
         birthday = data.get("birthday")
-        gender = data.get("gender")
         salary = data.get("salary")
         asset = data.get("asset")
         debt = data.get("debt")
@@ -34,21 +34,20 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user_field(user, "last_name", last_name)
         if nickname:
             user_field(user, "nickname", nickname)
-        if age:
-            user_field(user, "age", age)
-        if birthday:
-            user_field(user, "birthday", birthday)
         if gender:
-            user_field(user, "gender", gender)
-        if salary is not None:
-            user_field(user, "salary", salary)
-        if asset is not None:
-            user_field(user, "asset", asset)
-        if debt is not None:
-            user_field(user, "debt", debt)
+            user.gender = gender
+        if age:
+            user.age = age  # Direct assignment for integer field
+        if birthday:
+            user.birthday = birthday
+        if salary:
+            user.salary = salary
+        if asset:
+            user.asset = asset
+        if debt:
+            user.debt = debt
         if profile_image:
             user.profile_image.save(profile_image.name, profile_image, save=False)
-            # user_field(user, "profile_image", profile_image)
         # if deposit:
         #     user_field(user, "deposit", deposit)
         # if saving:
