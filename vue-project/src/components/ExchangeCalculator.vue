@@ -39,7 +39,7 @@
 
 <script setup>
 import axios from 'axios';
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 const exchangeInfo = ref(null)
 axios.get('http://127.0.0.1:8000/exchanges/')
   .then(response => {

@@ -13,9 +13,7 @@ import requests
 def getExchangeInfo(request):
     if request.method == 'GET':
         exchange_info = Exchange.objects.all()
-        serializer = ExchangeSerializer(data=exchange_info, many=True)
-        if serializer.is_valid():
-            serializer.save()
+        serializer = ExchangeSerializer(exchange_info, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         for i in range(7):

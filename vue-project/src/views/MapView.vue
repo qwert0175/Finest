@@ -6,11 +6,11 @@
     <div class="map-container">
       <div>
         <div>
-          <button class="map-option" :class="{ onSelectMode: mapMode === 1 }" @click="changeMapMode(1)">위치 검색</button>
-          <button class="map-option" :class="{ onSelectMode: mapMode === 2 }" @click="changeMapMode(2)">주변 은행</button>
+          <button class="map-option" :class="{ onSelectMode: mapMode === 1 }" @click="changeMapMode(1)">주변 은행</button>
+          <button class="map-option" :class="{ onSelectMode: mapMode === 2 }" @click="changeMapMode(2)">위치 검색</button>
         </div>
-        <SearchMap v-if="mapMode === 1"/>
-        <KakaoMap v-else-if="mapMode === 2"/>
+        <KakaoMap v-if="mapMode === 1"/>
+        <SearchMap v-else-if="mapMode === 2"/>
       </div>
     </div>
   </div>
