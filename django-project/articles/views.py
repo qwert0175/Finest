@@ -1,13 +1,8 @@
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from rest_framework import status
-
-# permission Decorators
-from rest_framework.decorators import permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-
 from django.shortcuts import get_object_or_404, get_list_or_404
-
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework import status
 from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerializer
 from .models import Article
 
@@ -42,7 +37,7 @@ def article_detail(request, article_pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     elif request.method == "PUT":
-        serializer = ArticleSerializer(article, data=request.data)
+        serializer = ArticleSerializer(article, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -77,4 +72,16 @@ def comment_detail(request, article_pk, comment_pk):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-        
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def likes(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    if request.user in article.like_users.all():
+        article.like_users.remove(request.user)
+        return Response({'Like removed'}, status=status.HTTP_204_NO_CONTENT)
+    else:
+        article.like_users.add(request.user)
+        return Response({'Article liked'}, status=status.HTTP_201_CREATED)
+    

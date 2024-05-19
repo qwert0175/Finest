@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # APP
     'accounts',
+    'articles',
     'exchanges',
     'products',
 
@@ -67,6 +68,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    # permission
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
 }
 
 REST_AUTH = {
@@ -74,7 +79,7 @@ REST_AUTH = {
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.CustomUserDetailSerializer',
 }
 
-ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
+ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
 
 # User Model
 AUTH_USER_MODEL = 'accounts.User'
@@ -82,12 +87,12 @@ AUTH_USER_MODEL = 'accounts.User'
 # ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_EMAIL_VERIFICATION = None
 
-# AUTHENTICATION_BACKENDS = (
-#     # django 기본 인증 백엔드
-#     "django.contrib.auth.backends.ModelBackend",
-#     # django-allauth 패키지에서 제공하는 인증 백엔드 클래스.
-#     "allauth.account.auth_backends.AuthenticationBackend",
-# )
+AUTHENTICATION_BACKENDS = (
+    # django 기본 인증 백엔드
+    "django.contrib.auth.backends.ModelBackend",
+    # django-allauth 패키지에서 제공하는 인증 백엔드 클래스.
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
