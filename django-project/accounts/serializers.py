@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
+from django.core.validators import MinLengthValidator
 from django.contrib.auth import get_user_model
 from .models import User
 
@@ -8,13 +9,13 @@ UserModel = get_user_model()
 
 class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(required=True, allow_blank=False, max_length=10)
-    email = serializers.EmailField(required=False)
-    age = serializers.IntegerField(required=False)
-    birthday = serializers.DateField(required=False)
-    gender = serializers.CharField(required=False)
-    salary = serializers.IntegerField(required=False)
-    asset = serializers.IntegerField(required=False)
-    debt = serializers.IntegerField(required=False)
+    email = serializers.EmailField(required=False, allow_blank=True)
+    age = serializers.CharField(required=False, allow_blank=False, max_length=2, validators=[MinLengthValidator(1)])
+    birthday = serializers.CharField(required=False, allow_blank=False, max_length=8, validators=[MinLengthValidator(8)])
+    gender = serializers.CharField(required=False, allow_blank=False, max_length=1, validators=[MinLengthValidator(1)])
+    salary = serializers.CharField(required=False, allow_blank=True, max_length=13)
+    asset = serializers.CharField(required=False, allow_blank=True, max_length=13)
+    debt = serializers.CharField(required=False, allow_blank=True, max_length=13)
     profile_image = serializers.ImageField(required=False, use_url=True)    
     # deposit = serializers.IntegerField(required=False)
     # saving = serializers.IntegerField(required=False,)
@@ -25,8 +26,8 @@ class CustomRegisterSerializer(RegisterSerializer):
             'password1': self.validated_data.get('password1', ''),
             'email': self.validated_data.get('email', ''),
             'nickname': self.validated_data.get('nickname', ''),
-            'age': self.validated_data.get('age', None),
-            'birthday': self.validated_data.get('birthday', None),
+            'age': self.validated_data.get('age', ''),
+            'birthday': self.validated_data.get('birthday', ''),
             'gender': self.validated_data.get('gender', ''),
             'salary': self.validated_data.get('salary', None),
             'asset': self.validated_data.get('asset', None),
