@@ -21,9 +21,11 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         salary = data.get("salary")
         asset = data.get("asset")
         debt = data.get("debt")
+        deposit = data.get("deposit")
+        saving = data.get("saving")
+        credit_loan = data.get("credit_loan")
+        is_staff = data.get("is_staff")
         profile_image = data.get("profile_image")
-        # deposit = data.get("deposit")
-        # saving = data.get("saving")
 
         user_email(user, email)
         user_username(user, username)
@@ -46,6 +48,14 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user.asset = asset
         if debt:
             user.debt = debt
+        if deposit:
+            user.deposit = deposit
+        if saving:
+            user.saving = saving
+        if credit_loan:
+            user.credit_loan = credit_loan
+        if is_staff:
+            user.is_staff = is_staff
         if profile_image:
             user.profile_image.save(profile_image.name, profile_image, save=False)
         # if deposit:
