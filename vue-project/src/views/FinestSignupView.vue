@@ -23,7 +23,12 @@
             </select><br>
 
             <label for="birthday">생일</label>
-            <input type="date" id="birthday" v-model="birthday"><br>
+            <!-- <input type="date" id="birthday" v-model="birthday"><br> -->
+            <Datepicker locale="ko"
+              class="datepicker"
+              v-model="birthday" 
+              :enable-time-picker="false"
+            /><br>
 
             <label for="salary">월 수입</label>
             <input type="number" min="0" max="999999999999" id="salary" v-model="salary"><br>
@@ -43,6 +48,8 @@
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
   import axios from 'axios'
+  import Datepicker from '@vuepic/vue-datepicker';
+  import '@vuepic/vue-datepicker/dist/main.css';
   
   const username = ref(null)
   const email = ref(null)
@@ -68,78 +75,89 @@
           age--
       }
       return age
+    }
   }
+
+  const birthdayFormat = (birthday) => {
+    if (!birthday) {
+      return null
+    } else {
+      const birthDate = new Date(birthday)
+      return `${birthDate.getFullYear()}-${birthDate.getMonth() + 1}-${birthDate.getDate()}`
+    }
   }
   
   const goToFinestSignUpView = function () {
-    const age = calculateAge(birthday.value)
-    console.log(age)
-    axios ({
-      method: 'post',
-      url: 'http://127.0.0.1:8000/api/v1/accounts/registration/',
-      data: {
-        username: username.value,
-        email: email.value || null,
-        password1: password1.value,
-        password2: password2.value,
-        birthday: birthday.value || null,
-        age: age || null,
-        gender: gender.value || null,
-        salary: salary.value,
-        asset: asset.value,
-        debt: debt.value
-      }
-    })
-    .then(res => {
-      console.log(res)
-      router.push({name: 'homeview'})
-    })
-    .catch(err => {
-      console.log(err)
-      for (const e in err.response.data) {
-        alert(`${e}: ${err.response.data[e]}`)
-      }
-    })
-  }
-  </script>
+  const age = calculateAge(birthday.value)
+  axios ({
+    method: 'post',
+    url: 'http://127.0.0.1:8000/api/v1/accounts/registration/',
+    data: {
+      username: username.value,
+      email: email.value || null,
+      password1: password1.value,
+      password2: password2.value,
+      birthday: birthdayFormat(birthday.value),
+      age: age || null,
+      gender: gender.value || null,
+      salary: salary.value,
+      asset: asset.value,
+      debt: debt.value
+    }
+  })
+  .then(res => {
+    router.push({name: 'homeview'})
+  })
+  .catch(err => {
+    for (const e in err.response.data) {
+      alert(`${e}: ${err.response.data[e]}`)
+    }
+  })
+}
+</script>
   
-  <style scoped>
-  .signup {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-  }
-  
-  .title {
-    margin: 70px 50px;
-    font-size: 50px;
-    font-weight: 700;
-  }
+<style scoped>
+.signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
 
-  .finest-signup-form {
-    display: flex;
-    flex-direction: column;
-  }
+.title {
+  margin: 70px 50px;
+  font-size: 50px;
+  font-weight: 700;
+}
 
-  .finest-signup-button {
-    margin-top: 100px;
-    margin-bottom: 100px;
-    font-size: 22px;
-    font-weight: 700;
-    color: white;
-    background-color: #0064FF;
-    border-radius: 10px;
-    width: 416px;
-    height: 50px;
-    border: 0px;
-  }
+.finest-signup-form {
+  display: flex;
+  flex-direction: column;
+}
 
-  input, select {
-    border-radius: 4px;
-    border: 2px solid  rgb(118, 118, 118);
-    height: 24px;
-  }
-  </style>
+.finest-signup-button {
+  margin-top: 100px;
+  margin-bottom: 100px;
+  font-size: 22px;
+  font-weight: 700;
+  color: white;
+  background-color: #0064FF;
+  border-radius: 10px;
+  width: 416px;
+  height: 50px;
+  border: 0px;
+}
+
+input, select {
+  border-radius: 4px;
+  border: 2px solid  rgb(118, 118, 118);
+  height: 24px;
+}
+
+.datepicker {
+  border-radius: 7px;
+  border: 2px solid  rgb(118, 118, 118);
+}
+</style>
   
