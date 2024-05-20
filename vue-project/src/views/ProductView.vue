@@ -7,7 +7,7 @@
       <button :class="{onSelected: isDeposit}" @click="isDeposit = true">예금</button>
       <button :class="{onSelected: !isDeposit}" @click="isDeposit = false">적금</button>
     </div>
-    <div class="product-area">
+    <div class="product-section">
       <DepositInfo v-if="isDeposit" />
       <SavingInfo v-else/>
     </div>
@@ -57,5 +57,9 @@ const isDeposit = ref(true)
     background-color: #3751FE;
     color: white;
   }
+}
+
+.product-section {
+  margin: 20px;
 }
 </style>
