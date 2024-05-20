@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 export const useUserInfoStore = defineStore('userinfo', () => {
     // 로그인 토큰
-    const authToken = ref('');
+    const token = ref(null);
   
     return { authToken }
   })
