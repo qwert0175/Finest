@@ -24,7 +24,10 @@ const article = ref(null)
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/articles/${route.params.id}/`
+    url: `${store.API_URL}/articles/${route.params.id}/`,
+    headers: {
+      Authorization: `Token ${store.token}`
+    }
   })
     .then((response) => {
       // console.log(response.data)

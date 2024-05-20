@@ -6,7 +6,7 @@ import axios from 'axios'
 export const useUserInfoStore = defineStore('userinfo', () => {
     // 로그인 토큰
     const token = ref(null);
-    const articles = ref([])};
+    const articles = ref([]);
     const username = ref(null);
     const API_URL = 'http://127.0.0.1:8000'
 
@@ -28,6 +28,6 @@ export const useUserInfoStore = defineStore('userinfo', () => {
         })
     };
   
-    return { token, username, getArticles };
+    return { token, articles, username, API_URL, getArticles };
   })
   
