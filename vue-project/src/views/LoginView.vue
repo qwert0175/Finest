@@ -42,12 +42,11 @@ const finestLogin = () => {
       }
     })
     .then(res => {
-      console.log(res)
       userInfoStore.token = res.data.key
+      userInfoStore.username = username.value
       router.push({name: 'homeview'})
     })
     .catch(err => {
-      console.log(err)
       for (const e in err.response.data) {
         alert(err.response.data[e])
       }

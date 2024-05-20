@@ -4,7 +4,8 @@ import { defineStore } from 'pinia'
 export const useUserInfoStore = defineStore('userinfo', () => {
     // 로그인 토큰
     const token = ref(null);
+    const username = ref(null);
   
-    return { authToken }
+    return { token, username };
   })
   
