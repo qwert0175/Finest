@@ -3,14 +3,14 @@
         <div class="title">
             <p>로그인</p>
         </div>
-        <form class="login-form">
+        <form class="login-form" @submit.prevent="finestLogin">
             <div class="input-container">
-                <div class="label-text">Email Address</div>
-                <input class="input-content" type="email" id="email" name="email" placeholder="이메일을 입력하세요">
+                <div class="label-text">Username</div>
+                <input class="input-content" type="Username" id="Username" name="Username" v-model="username" placeholder="아이디를 입력하세요">
             </div>
             <div class="input-container">
                 <div class="label-text">Password</div>
-                <input class="input-content" type="password" id="password" name="password" placeholder="패스워드를 입력하세요">
+                <input class="input-content" type="password" id="password" name="password" v-model="password" placeholder="패스워드를 입력하세요">
             </div>
             <a href="">Forgot Password?</a>
             <div class="button-container">
@@ -24,6 +24,36 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
+import { useUserInfoStore } from '@/stores/userinfo';
+const userInfoStore = useUserInfoStore();
+const username = ref('');
+const password = ref('');
+const router = useRouter();
+const finestLogin = () => {
+    axios ({
+      method: 'post',
+      url: 'http://127.0.0.1:8000/api/v1/accounts/login/',
+      data: {
+        username: username.value,
+        password: password.value,
+      }
+    })
+    .then(res => {
+      console.log(res)
+      userInfoStore.authToken = res.data.key
+      console.log(userInfoStore.authToken)
+      router.push({name: 'homeview'})
+    })
+    .catch(err => {
+      console.log(err)
+      for (const e in err.response.data) {
+        alert(err.response.data[e])
+      }
+    })
+  }
 </script>
 
 <style scoped>
