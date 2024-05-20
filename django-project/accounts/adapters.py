@@ -9,12 +9,11 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         """
         from allauth.account.utils import user_email, user_field, user_username
         data = form.cleaned_data
-        first_name = data.get("first_name")
-        last_name = data.get("last_name")
-        email = data.get("email")
         username = data.get("username")
+        email = data.get("email")
+        last_name = data.get("last_name")
+        first_name = data.get("first_name")
         # 필드 추가
-        nickname = data.get("nickname")
         gender = data.get("gender")
         age = data.get("age")
         birthday = data.get("birthday")
@@ -27,19 +26,19 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         is_staff = data.get("is_staff")
         profile_image = data.get("profile_image")
 
+        # print(f"last_name: {last_name}, first_name: {first_name}")
+
         user_email(user, email)
         user_username(user, username)
-        
-        if first_name:
-            user_field(user, "first_name", first_name)
+
         if last_name:
-            user_field(user, "last_name", last_name)
-        if nickname:
-            user_field(user, "nickname", nickname)
+            user.last_name = last_name
+        if first_name:
+            user.first_name = first_name
         if gender:
             user.gender = gender
         if age:
-            user.age = age  # Direct assignment for integer field
+            user.age = age
         if birthday:
             user.birthday = birthday
         if salary:
@@ -58,10 +57,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user.is_staff = is_staff
         if profile_image:
             user.profile_image.save(profile_image.name, profile_image, save=False)
-        # if deposit:
-        #     user_field(user, "deposit", deposit)
-        # if saving:
-        #     user_field(user, "saving", saving)
+
         if "password1" in data:
             user.set_password(data["password1"])
         else:

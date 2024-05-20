@@ -84,8 +84,8 @@ ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'
 # User Model
 AUTH_USER_MODEL = 'accounts.User'
 
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = None
 
 AUTHENTICATION_BACKENDS = (
     # django 기본 인증 백엔드

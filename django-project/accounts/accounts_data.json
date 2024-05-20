@@ -1,0 +1,29 @@
+[
+{
+    "model": "accounts.user",
+    "pk": "관리자",
+    "fields": {
+        "password": "pbkdf2_sha256$600000$TMXCyyECjOhFp9s2cT2Mfy$Xho7K3WsoD5NXsVgS1P+1wDmkZDvyMAlEDe1jAIyv7Y=",
+        "last_login": "2024-05-20T02:24:36.001Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "date_joined": "2024-05-20T02:24:35.678Z",
+        "email": "beomjun789@gmail.com",
+        "gender": "남성",
+        "age": 26,
+        "birthday": "2024-05-20",
+        "salary": 150,
+        "asset": 500,
+        "debt": 0,
+        "deposit": 0,
+        "saving": 0,
+        "credit_loan": 0,
+        "is_staff": true,
+        "profile_image": "",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]
