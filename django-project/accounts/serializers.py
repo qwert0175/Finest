@@ -19,8 +19,8 @@ class CustomRegisterSerializer(RegisterSerializer):
     deposit = serializers.IntegerField(required=False, max_value=999999999999)
     saving = serializers.IntegerField(required=False, max_value=999999999999)
     is_staff = serializers.BooleanField(default=False)
-    profile_image = serializers.ImageField(required=False, use_url=True)    
-   
+    profile_image = serializers.ImageField(required=False, use_url=True)
+
     def get_cleaned_data(self):
         return {
             'username': self.validated_data.get('username', ''),
@@ -38,6 +38,22 @@ class CustomRegisterSerializer(RegisterSerializer):
             'is_staff': self.validated_data.get('is_staff', ''),
             'profile_image': self.validated_data.get('profile_image', None),
         }
+    
+    # def save(self, **kwargs):
+    #     request = self.context.get('request')
+    #     user = super().save(**kwargs)
+    #     if request:
+    #         user.profile.last_updated_by = request.user
+    #     user.save()
+    #     return user
+
+    # def save(self, request=None, **kwargs):
+    #     # Custom save logic that can utilize the request
+    #     user = super().save(request=request)
+    #     if request:
+    #         user.profile.last_updated_by = request.user
+    #     user.save()
+    #     return user
 
 class CustomUserDetailSerializer(UserDetailsSerializer):
     class Meta:
@@ -72,4 +88,4 @@ class CustomUserDetailSerializer(UserDetailsSerializer):
             extra_fields.append('profile_image')
         model = UserModel
         fields = ('pk', *extra_fields)
-        read_only_fields = ('email',)
+        read_only_fields = ('email', 'nickname')
