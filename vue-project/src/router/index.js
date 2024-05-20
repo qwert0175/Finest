@@ -9,6 +9,7 @@ import RecommendView from '@/views/RecommendView.vue'
 import CommunityView from '@/views/CommunityView.vue'
 import CreateView from '@/views/CreateView.vue'
 import DetailView from '@/views/DetailView.vue'
+import UpdateView from '@/views/UpdateView.vue'
 import FinestSignupView from '@/views/FinestSignupView.vue'
 
 const router = createRouter({
@@ -65,9 +66,14 @@ const router = createRouter({
       component: CreateView
     },
     {
-      path: '/articles/:id',
+      path: '/detailview/:id',
       name: 'DetailView',
       component: DetailView
+    },
+    {
+      path: '/detailview/:id/update',
+      name: 'UpdateView',
+      component: UpdateView
     }
     // {
     //   path: '/about',

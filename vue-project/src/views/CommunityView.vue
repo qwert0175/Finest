@@ -3,6 +3,7 @@
         <h1>커뮤니티</h1>
         <RouterLink :to="{ name: 'CreateView' }">
             [CREATE]
+            <hr>
         </RouterLink>
         <ArticleList />
     </div>
