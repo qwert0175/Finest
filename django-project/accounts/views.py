@@ -10,6 +10,7 @@ from .models import User
 @permission_classes([IsAuthenticated])
 def user_detail(request, username):
     user = get_object_or_404(User, username=username)
+    print(username)
 
     if request.method == 'GET':
         serializer = CustomUserDetailSerializer(user)

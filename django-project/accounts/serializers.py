@@ -82,5 +82,5 @@ class CustomUserDetailSerializer(UserDetailsSerializer):
         if hasattr(UserModel, 'profile_image'):
             extra_fields.append('profile_image')
         model = UserModel
-        fields = ('username', 'email', 'gender', 'age', 'birthday', 'salary', 'asset', 'debt', 'deposit', 'saving', 'credit_loan', 'profile_image')
-        read_only_fields = ('email',)
+        fields = ('username','email', 'gender', 'age', 'birthday', 'salary', 'asset', 'debt', 'deposit', 'saving', 'credit_loan', 'profile_image')
+        read_only_fields = ('username',)

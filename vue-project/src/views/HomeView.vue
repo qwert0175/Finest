@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="middle-container d-flex">
-            <RouterLink class="nav-link" to="/productview">
+            <RouterLink class="nav-link" to="/product">
                 <div class="middle-item product">
                     <p>상품정보 조회</p>
                 </div>
