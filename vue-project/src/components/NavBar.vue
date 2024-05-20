@@ -17,19 +17,23 @@
         </li>
       </ul>
       <div class="d-flex">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <RouterLink class="nav-link" to="/loginview">로그인</RouterLink>
-            </li>
-            <li class="nav-item">
-                <RouterLink class="nav-link" to="/signupview">회원가입</RouterLink>
-            </li>
+        <ul v-if="userInfoStore.token" class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+              <RouterLink class="nav-link" to="/updateview">회원정보수정</RouterLink>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" @click="logOut">로그아웃</a>
+          </li>
+        </ul>
+        <ul v-else class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+              <RouterLink class="nav-link" to="/loginview">로그인</RouterLink>
+          </li>
+          <li class="nav-item">
+              <RouterLink class="nav-link" to="/signupview">회원가입</RouterLink>
+          </li>
         </ul>
       </div>
-      <!-- <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
     </div>
   </div>
 </nav>
@@ -37,9 +41,30 @@
 </template>
 
 <script setup>
+import { useUserInfoStore } from '@/stores/userinfo';
+import axios from 'axios';
+const userInfoStore = useUserInfoStore();
 
+const logOut = () => {
+  axios ({
+      method: 'post',
+      url: 'http://127.0.0.1:8000/api/v1/accounts/logout/',
+    })
+    .then(res => {
+      console.log(res)
+      userInfoStore.token = null;
+    })
+    .catch(err => {
+      console.log(err)
+      for (const e in err.response.data) {
+        alert(err.response.data[e])
+      }
+    })
+  }
 </script>
 
 <style scoped>
-
+.nav-link:hover {
+  cursor: pointer
+}
 </style>

@@ -43,8 +43,7 @@ const finestLogin = () => {
     })
     .then(res => {
       console.log(res)
-      userInfoStore.authToken = res.data.key
-      console.log(userInfoStore.authToken)
+      userInfoStore.token = res.data.key
       router.push({name: 'homeview'})
     })
     .catch(err => {
