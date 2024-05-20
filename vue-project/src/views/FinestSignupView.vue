@@ -18,8 +18,8 @@
 
             <label for="gender">성별</label>
             <select id="gender" v-model="gender">
-                <option value="male">남성</option>
-                <option value="female">여성</option>
+                <option value="남성">남성</option>
+                <option value="여성">여성</option>
             </select><br>
 
             <label for="birthday">생일</label>

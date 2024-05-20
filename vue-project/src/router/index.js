@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
+import UpdateInfoView from '@/views/UpdateInfoView.vue'
 import SignupView from '@/views/SignupView.vue'
 import MapView from '@/views/MapView.vue'
 import ProductView from '@/views/ProductView.vue'
@@ -22,6 +23,11 @@ const router = createRouter({
       component: LoginView
     },
     {
+      path: '/updateinfo',
+      name: 'updateinfo',
+      component: UpdateInfoView
+    },
+    {
       path: '/signupview',
       name: 'signupview',
       component: SignupView
@@ -32,8 +38,8 @@ const router = createRouter({
       component: MapView
     },
     {
-      path: '/productview',
-      name: 'productview',
+      path: '/product',
+      name: 'product',
       component: ProductView
     },
     {

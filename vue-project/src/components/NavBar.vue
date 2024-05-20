@@ -10,16 +10,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <RouterLink class="nav-link" to="/mapview">은행지도</RouterLink>
+          <RouterLink class="nav-link" to="/product">금리 비교</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink class="nav-link" to="/communityview">커뮤니티</RouterLink>
+          <RouterLink class="nav-link" to="/mapview">은행 찾기</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" to="/communityview">게시판</RouterLink>
         </li>
       </ul>
       <div class="d-flex">
         <ul v-if="userInfoStore.token" class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-              <RouterLink class="nav-link" to="/updateview">회원정보수정</RouterLink>
+              <RouterLink class="nav-link" to="/updateinfo">회원정보수정</RouterLink>
           </li>
           <li class="nav-item">
               <a class="nav-link" @click="logOut">로그아웃</a>
@@ -43,6 +46,8 @@
 <script setup>
 import { useUserInfoStore } from '@/stores/userinfo';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const userInfoStore = useUserInfoStore();
 
 const logOut = () => {
@@ -53,6 +58,8 @@ const logOut = () => {
     .then(res => {
       console.log(res)
       userInfoStore.token = null;
+      userInfoStore.name = null;
+      router.push({name: 'homeview'})
     })
     .catch(err => {
       console.log(err)
