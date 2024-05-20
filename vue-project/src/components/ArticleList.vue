@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h3>Article List</h3>
+    <h3>공지사항 & 자유게시판</h3>
+    <hr>
     <ArticleListItem 
       v-for="article in store.articles"
       :key="article.id"
