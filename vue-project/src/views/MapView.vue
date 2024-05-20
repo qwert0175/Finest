@@ -32,9 +32,9 @@ const changeMapMode = (mode) => {
   justify-content: center;
   align-items: center;
   background-color: #E47643;
+  color: white;
   height: 50px;
   font-size: 20px;
-  color: white;
 }
 
 .page-title-text {
@@ -48,14 +48,15 @@ const changeMapMode = (mode) => {
 }
 
 .map-option {
-  color: white;
-  background-color: #E47643;
+  color: black;
+  background-color: rgb(240, 240, 240);
   border: 1px solid black;
   border-radius: 7px 7px 0px 0px;
   padding: 10px;
 }
 
 .onSelectMode {
-  background-color: #008000;
+  color: white;
+  background-color: #E47643;
 }
 </style>
