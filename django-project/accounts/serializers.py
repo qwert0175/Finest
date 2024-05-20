@@ -16,9 +16,10 @@ class CustomRegisterSerializer(RegisterSerializer):
     salary = serializers.IntegerField(required=False, max_value=999999999999)
     asset = serializers.IntegerField(required=False, max_value=999999999999)
     debt = serializers.IntegerField(required=False, max_value=999999999999)
+    deposit = serializers.IntegerField(required=False, max_value=999999999999)
+    saving = serializers.IntegerField(required=False, max_value=999999999999)
+    is_staff = serializers.BooleanField(default=False)
     profile_image = serializers.ImageField(required=False, use_url=True)    
-    # deposit = serializers.IntegerField(required=False)
-    # saving = serializers.IntegerField(required=False,)
    
     def get_cleaned_data(self):
         return {
@@ -32,6 +33,9 @@ class CustomRegisterSerializer(RegisterSerializer):
             'salary': self.validated_data.get('salary', None),
             'asset': self.validated_data.get('asset', None),
             'debt': self.validated_data.get('debt', None),
+            'deposit': self.validated_data.get('deposit', None),
+            'saving': self.validated_data.get('saving', None),
+            'is_staff': self.validated_data.get('is_staff', ''),
             'profile_image': self.validated_data.get('profile_image', None),
         }
 
