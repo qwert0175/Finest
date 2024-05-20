@@ -56,13 +56,11 @@ const logOut = () => {
       url: 'http://127.0.0.1:8000/api/v1/accounts/logout/',
     })
     .then(res => {
-      console.log(res)
       userInfoStore.token = null;
       userInfoStore.name = null;
       router.push({name: 'homeview'})
     })
     .catch(err => {
-      console.log(err)
       for (const e in err.response.data) {
         alert(err.response.data[e])
       }

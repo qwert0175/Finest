@@ -17,7 +17,12 @@
             </select><br>
 
             <label for="birthday">생일</label>
-            <input type="date" id="birthday" v-model="userData.birthday"><br>
+            <!-- <input type="date" id="birthday" v-model="userData.birthday"><br> -->
+            <Datepicker locale="ko"
+              class="datepicker"
+              v-model="userData.birthday" 
+              :enable-time-picker="false"
+            /><br>
 
             <label for="salary">월 수입</label>
             <input type="number" min="0" max="999999999999" id="salary" v-model="userData.salary"><br>
@@ -27,8 +32,10 @@
 
             <label for="debt">부채</label>
             <input type="number" min="0" max="999999999999" id="debt" v-model="userData.debt"><br>
-
-            <input class="finest-signup-button" type="submit" value="회원 정보 수정">
+            <div class="button-container">
+                <input class="finest-button update-userinfo" type="submit" value="회원 정보 수정">
+                <input class="finest-button delete-userinfo" type="button" @click="withdrawal" value="회원 탈퇴">
+            </div>
         </form>
     </div>
 </template>
@@ -38,6 +45,9 @@ import { ref, onMounted } from 'vue'
 import { useUserInfoStore } from '@/stores/userinfo';
 import { useRouter } from 'vue-router';
 import axios from 'axios'
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+
 const router = useRouter()
 const userInfoStore = useUserInfoStore()
 
@@ -53,6 +63,38 @@ const userData = ref({
     debt: ''
 })
 
+const birthdayFormat = (birthday) => {
+    if (!birthday) {
+      return null
+    } else {
+      const birthDate = new Date(birthday)
+      return `${birthDate.getFullYear()}-${birthDate.getMonth() + 1}-${birthDate.getDate()}`
+    }
+}
+
+const withdrawal = () => {
+    if (confirm('정말 탈퇴하시겠습니까?')) {
+        axios({
+            method: 'delete',
+            url: `http://127.0.0.1:8000/accounts/${userInfoStore.username}/`,
+            headers: {
+                'Authorization': `Token ${userInfoStore.token}`
+            }
+        })
+        .then(res => {
+            alert('탈퇴되었습니다.')
+            userInfoStore.username = null
+            userInfoStore.token = null
+            router.push({name: 'homeview'})
+        })
+        .catch(err => {
+            for (const e in err.response.data) {
+                alert(`${e}: ${err.response.data[e]}`)
+            }
+        })
+    }
+}
+
 onMounted(() => {
     axios ({
         method: 'get',
@@ -62,19 +104,17 @@ onMounted(() => {
         }
     })
     .then(res => {
-        console.log(res)
         userData.value = {
             username: res.data.username,
             email: res.data.email,
             gender: res.data.gender,
-            birthday: res.data.birthday,
+            birthday: birthdayFormat(res.data.birthday),
             salary: res.data.salary,
             asset: res.data.asset,
             debt: res.data.debt,
         }
     })
     .catch(err => {
-        console.log(err)
         for (const e in err.response.data) {
             alert(`${e}: ${err.response.data[e]}`)
         }
@@ -95,7 +135,6 @@ const updateUserInfo = () => {
         router.push({name: 'homeview'})
     })
     .catch(err => {
-        console.log(err)
         for (const e in err.response.data) {
             alert(`${e}: ${err.response.data[e]}`)
         }
@@ -105,40 +144,60 @@ const updateUserInfo = () => {
   
 <style scoped>
 .signup {
-display: flex;
-justify-content: center;
-align-items: center;
-flex-wrap: wrap;
-flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .title {
-margin: 70px 50px;
-font-size: 50px;
-font-weight: 700;
+    margin: 70px 50px;
+    font-size: 50px;
+    font-weight: 700;
 }
 
 .finest-signup-form {
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
-.finest-signup-button {
-margin-top: 100px;
-margin-bottom: 100px;
-font-size: 22px;
-font-weight: 700;
-color: white;
-background-color: #0064FF;
-border-radius: 10px;
-width: 416px;
-height: 50px;
-border: 0px;
+.finest-button {
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    background-color: #0064FF;
+    border-radius: 10px;
+    width: 416px;
+    height: 50px;
+    border: 0px;
+}
+
+.button-container {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 30px;
+    margin-bottom: 100px;
+}
+
+.update-userinfo {
+    background-color: #0064FF;
+}
+
+.delete-userinfo {
+    background-color: #ff0000;
 }
 
 input, select {
-border-radius: 4px;
-border: 2px solid  rgb(118, 118, 118);
-height: 24px;
+    border-radius: 4px;
+    border: 2px solid  rgb(118, 118, 118);
+    height: 24px;
+}
+
+.datepicker {
+    border-radius: 7px;
+    border: 2px solid  rgb(118, 118, 118);
 }
 </style>
