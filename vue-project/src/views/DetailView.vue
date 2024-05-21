@@ -1,20 +1,37 @@
 <template>
-  <div>
-    <h1>게시글 상세 페이지</h1>
-    <div v-if="article">
-      <p>글 번호 : {{ article.id }}</p>
-      <p>작성자 : {{ article.user }}</p>
-      <p>분류 : {{ article.category }}</p>
-      <p>제목 : {{ article.title }}</p>
-      <p>내용 : {{ article.content }}</p>
-      <p>게시일 : {{ formatDate(article.created_at) }}</p>
-      <p>수정일 : {{ formatDate(article.updated_at) }}</p>
+  <div v-if="article" class="article">
+    <div class="article-heder">
+      <div class="category">
+        <img src="/src/assets/img/category.jpg" alt="category Icon" class="category-icon">
+        <span class="category-text">{{ article.category }}</span>
+      </div>
+      
+      <div class="article-heder-actions">
+        <button @click="editArticle">수정</button> |
+        <button @click="deleteArticle">삭제</button>
+      </div>
+    </div>
+    <p class="title">{{ article.title }}</p>
 
-      <div class="back-button">
-          <button @click="goCommunity">뒤로가기</button> 
+    <div class="article-heder-bottom">
+      <div class="article-author">
+        <div class="author-info">
+          <div class="author-avatar">
+            <img src="/src/assets/img/author_image.jpg" alt="author-image">
+          </div>
+          <p class="username">{{ article.user }}</p>
+          <p class="rank">매니저</p>
         </div>
-      <button @click="editArticle">수정하기</button>
-      <button @click="deleteArticle">삭제</button>
+      </div>
+
+      <div class="article-date">
+        <p>게시일 : {{ formatDate(article.created_at) }}</p>
+        <p>수정일 : {{ formatDate(article.updated_at) }}</p>
+      </div>
+    </div>
+
+    <div class="article-content">
+      <p>{{ article.content }}</p>
     </div>
 
     <div class="comments">
@@ -32,6 +49,10 @@
           <button @click="deleteComments(comment.id)">삭제</button>
         </li>
       </ul>
+    </div>
+
+    <div class="back-button">
+    <button @click="goCommunity">목록</button> 
     </div>
   </div>
 </template>
@@ -112,16 +133,6 @@ const addComment = async () => {
   }
 }
 
-// const deleteComments = async (parameter) => {
-//     try {
-//         await userInfoStore.deleteComment(route.params.id, parameter)
-//     alert('댓글이 삭제되었습니다.')
-//   } catch (error) {
-//       console.error('Failed to delete post:', error)
-//       alert('댓글 삭제에 실패했습니다.')
-//     }
-//   }
-
 const deleteComments = async (commentId) => {
   try {
     await axios({
@@ -179,5 +190,84 @@ onMounted(() => {
 
 
 <style>
+.article {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.article-heder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+.article-heder-actions {
+    display: flex;
+    gap: 10px; 
+}
+.article-heder-actions button {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 0.9em;
+  cursor: pointer;
+  padding: 0;
+}
+.title {
+    font-size: 1.5em; 
+    font-weight: bold;
+}
+
+.article-heder-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically */
+}
+
+.author-info {
+    display: flex;
+    align-items: center; /* Ensure the avatar and username are vertically aligned */
+}
+.author-avatar {
+    margin-right: 10px; /* Space between the avatar and username */
+}
+.author-avatar img {
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+}
+.username {
+    font-size: 0.9em; 
+    /* font-weight: bold;  */
+}
+.rank {
+  color: #999;
+  font-size: 0.9em;
+  margin-left: 10px;
+}
+
+.article-date {
+  text-align: right;
+  color: #999;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+.article-date p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.article-content {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin: 10px 0;
+}
 
 </style>
