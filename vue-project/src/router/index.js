@@ -5,6 +5,7 @@ import UpdateInfoView from '@/views/UpdateInfoView.vue'
 import SignupView from '@/views/SignupView.vue'
 import MapView from '@/views/MapView.vue'
 import ProductView from '@/views/ProductView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 import DepositDetail from '@/views/DepositDetail.vue'
 import SavingDetail from '@/views/SavingDetail.vue'
 import RecommendView from '@/views/RecommendView.vue'
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/product',
       name: 'product',
       component: ProductView
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView
     },
     {
       path: '/depositdetail/:id',

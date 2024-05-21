@@ -22,6 +22,9 @@
       <div class="d-flex">
         <ul v-if="userInfoStore.token" class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
+              <RouterLink class="nav-link" to="/profile">{{ userInfoStore.username }}</RouterLink>
+          </li>
+          <li class="nav-item">
               <RouterLink class="nav-link" to="/updateinfo">회원정보수정</RouterLink>
           </li>
           <li class="nav-item">
@@ -61,9 +64,10 @@ const logOut = () => {
       router.push({name: 'homeview'})
     })
     .catch(err => {
-      for (const e in err.response.data) {
-        alert(err.response.data[e])
-      }
+      console.log(err)
+      // for (const e in err.response.data) {
+      //   alert(err.response.data[e])
+      // }
     })
   }
 </script>

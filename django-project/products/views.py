@@ -30,7 +30,7 @@ def getProductsInfo(request):
     if deposit_options_serializer.is_valid():
         deposit_options_serializer.save()
     else:
-        return Response(deposit_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(deposit_options_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     saving_serializer = SavingSerializer(data=saving_data['result']['baseList'], many=True)
     if saving_serializer.is_valid():

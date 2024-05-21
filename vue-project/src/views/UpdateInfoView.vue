@@ -115,9 +115,7 @@ onMounted(() => {
         }
     })
     .catch(err => {
-        for (const e in err.response.data) {
-            alert(`${e}: ${err.response.data[e]}`)
-        }
+        alert(err)
     })
 })
 
