@@ -28,10 +28,12 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useUserInfoStore } from '@/stores/userinfo';
+
 const userInfoStore = useUserInfoStore();
 const username = ref('');
 const password = ref('');
 const router = useRouter();
+
 const finestLogin = () => {
     axios ({
       method: 'post',
@@ -52,6 +54,7 @@ const finestLogin = () => {
       }
     })
   }
+
 </script>
 
 <style scoped>

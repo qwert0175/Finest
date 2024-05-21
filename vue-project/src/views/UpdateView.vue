@@ -1,20 +1,23 @@
 <template>
   <div>
-    <h1>Edit Post</h1>
-    <form @submit.prevent="updatePost">
+    <h1>게시글 수정 페이지</h1>
+    <form @submit.prevent="updateArticleInfo">
       <div>
-        <label for="category">Category:</label>
-        <input type="text" v-model="form.category" id="category" placeholder="Enter category" />
+        <label for="category">카테고리 : </label>
+        <select v-model.trim="articleData.category" id="category">
+          <option value="공지사항">공지사항</option>
+          <option value="자유게시판">자유게시판</option>
+        </select>
       </div>
       <div>
-        <label for="title">Title:</label>
-        <input type="text" v-model="form.title" id="title" placeholder="Enter title" />
+        <label for="title">제목 : </label>
+        <input type="text" v-model.trim="articleData.title" id="title" >
       </div>
       <div>
-        <label for="content">Content:</label>
-        <textarea v-model="form.content" id="content" placeholder="Enter content"></textarea>
+        <label for="content">내용 : </label>
+        <textarea v-model.trim="articleData.content" id="content"></textarea>
       </div>
-      <button type="submit">Save</button>
+      <input type="submit">
     </form>
   </div>
 </template>
@@ -25,60 +28,59 @@ import { useRoute, useRouter } from 'vue-router'
 import { useUserInfoStore } from '@/stores/userinfo'
 import axios from 'axios'
 
-const store = useUserInfoStore()
+const userInfoStore = useUserInfoStore()
 const route = useRoute()
 const router = useRouter()
+const article = ref(null)
 
-const form = ref({
+const articleData = ref({
   category: '',
   title: '',
   content: ''
 })
 
-const fetchPost = () => {
-  axios({
-    method: 'get',
-    url: `${store.API_URL}/articles/${route.params.id}/`,
-    headers: {
-      Authorization: `Token ${store.token}`
-    }
-  })
-    .then((response) => {
-      const post = response.data
-      form.value.category = post.category
-      form.value.title = post.title
-      form.value.content = post.content
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
-
-const updatePost = () => {
-  axios({
-    method: 'put',
-    url: `${store.API_URL}/articles/${route.params.id}/`,
-    headers: {
-      Authorization: `Token ${store.token}`
-    },
-    data: {
-      category: form.value.category,
-      title: form.value.title,
-      content: form.value.content
-    }
-  })
-    .then(() => {
-      alert('Post updated successfully')
-      router.push({ name: 'detailview', params: { id: route.params.id } })
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-}
 
 onMounted(() => {
-  fetchPost()
+    axios ({
+        method: 'get',
+        url: `${userInfoStore.API_URL}/articles/${route.params.id}/`,
+        headers: {
+            'Authorization': `Token ${userInfoStore.token}`
+        }
+    })
+    .then(res => {
+      articleData.value = {
+            category: res.data.category,
+            title: res.data.title,
+            content: res.data.content,
+        }
+    })
+    .catch(err => {
+        for (const e in err.response.data) {
+            alert(`${e}: ${err.response.data[e]}`)
+        }
+    })
 })
+
+const updateArticleInfo = () => {
+    axios({
+        method: 'put',
+        url: `${userInfoStore.API_URL}/articles/${route.params.id}/`,
+        headers: {
+            'Authorization': `Token ${userInfoStore.token}`
+        },
+        data: articleData.value
+    })
+    .then(res => {
+        alert('게시글이 성공적으로 수정되었습니다.')
+        router.push({ name: 'DetailView', params: { id: route.params.id } })
+    })
+    .catch(err => {
+        for (const e in err.response.data) {
+            alert(`${e}: ${err.response.data[e]}`)
+        }
+    })
+}
 </script>
 
 <style scoped>
