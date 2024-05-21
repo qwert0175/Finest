@@ -21,10 +21,25 @@ class User(AbstractUser):
     salary = models.IntegerField(blank=True, null=True, default=0)
     asset = models.IntegerField(blank=True, null=True, default=0)
     debt = models.IntegerField(blank=True, null=True, default=0)
-    deposit = models.IntegerField(blank=True, null=True, default=0)
-    saving = models.IntegerField(blank=True, null=True, default=0)
-    credit_loan = models.IntegerField(blank=True, null=True, default=0)
+    deposits = models.ManyToManyField(Deposit, through='UserDeposit')
+    savings = models.ManyToManyField(Saving, through='UserSaving')
+    creditloans = models.ManyToManyField(CreditLoan, through='UserCreditLoan')
     is_staff = models.BooleanField(default=False)
     profile_image = models.ImageField(blank=True, null=True, upload_to='profile/')
     # period = models.CharField(max_length=20, null=True)
     # bank = models.CharField(max_length=20, null=True)
+
+class UserDeposit(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    deposit = models.ForeignKey(Deposit, on_delete=models.CASCADE)
+    join_date = models.DateField()
+
+class UserSaving(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    saving = models.ForeignKey(Saving, on_delete=models.CASCADE)
+    join_date = models.DateField()
+
+class UserCreditLoan(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    creditloan = models.ForeignKey(CreditLoan, on_delete=models.CASCADE)
+    join_date = models.DateField()

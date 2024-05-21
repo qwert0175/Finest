@@ -19,8 +19,8 @@ class DepositOptions(models.Model):
     intr_rate_type = models.CharField(max_length=30)
     intr_rate_type_nm = models.CharField(max_length=50)
     save_trm = models.IntegerField()
-    intr_rate = models.FloatField(max_length=10)
-    intr_rate2 = models.FloatField(max_length=10)
+    intr_rate = models.FloatField(max_length=10, null=True)
+    intr_rate2 = models.FloatField(max_length=10, null=True)
 
 class Saving(models.Model):
     fin_prdt_cd = models.CharField(max_length=30,primary_key=True)
@@ -42,8 +42,8 @@ class SavingOptions(models.Model):
     rsrv_type = models.CharField(max_length=30)
     rsrv_type_nm = models.CharField(max_length=50)
     save_trm = models.IntegerField()
-    intr_rate = models.FloatField(max_length=10)
-    intr_rate2 = models.FloatField(max_length=10)
+    intr_rate = models.FloatField(max_length=10, null=True)
+    intr_rate2 = models.FloatField(max_length=10, null=True)
 
 class CreditLoan(models.Model):
     fin_prdt_cd = models.CharField(max_length=30)

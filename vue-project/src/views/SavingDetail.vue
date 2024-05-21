@@ -16,6 +16,7 @@
         <p><strong>가입대상:</strong> {{ saving.join_member }}</p>
         <p><strong>최고한도:</strong> {{ saving.max_limit || '없음' }}</p>
       </div>
+      <button @click="onUserProducts">가입하기</button>
       <div v-for="(options, type) in groupedSavingOptions" :key="type" class="options-group">
         <div class="options-group-title">{{ type }}</div>
         <div class="options-container">
@@ -43,12 +44,14 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useUserInfoStore } from '@/stores/userinfo';
 import axios from 'axios';
 
 const route = useRoute();
 const saving = ref(null);
 const savingOptions = ref([]);
 const optionState = ref({ type: null, term: null });
+const userInfoStore = useUserInfoStore();
 
 onMounted(() => {
   const savingId = route.params.id;
@@ -65,6 +68,26 @@ onMounted(() => {
       console.error(err);
     });
 });
+
+const onUserProducts = () => {
+  axios ({
+    method: 'post',
+    url: 'http://127.0.0.1:8000/accounts/saving/',
+    headers: {
+      'Authorization': `Token ${userInfoStore.token}`
+    },
+    data: {
+      username: userInfoStore.username,
+      fin_prdt_cd: saving.value.fin_prdt_cd
+    },
+  })
+  .then(res => {
+    console.log(res.data);
+  })
+  .catch(err => {
+    console.error(err);
+  })
+}
 
 const setOptionState = (type, term) => {
   optionState.value = { type, term };
