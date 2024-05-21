@@ -3,7 +3,7 @@ from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import UserDetailsSerializer
 from django.core.validators import MinLengthValidator
 from django.contrib.auth import get_user_model
-from .models import User
+from .models import User, UserDeposit, UserSaving, UserCreditLoan
 
 UserModel = get_user_model()
 
@@ -71,16 +71,32 @@ class CustomUserDetailSerializer(UserDetailsSerializer):
             extra_fields.append('asset')
         if hasattr(UserModel, 'debt'):
             extra_fields.append('debt')
-        if hasattr(UserModel, 'deposit'):
-            extra_fields.append('deposit')
-        if hasattr(UserModel, 'saving'):
-            extra_fields.append('saving')
-        if hasattr(UserModel, 'credit_loan'):
-            extra_fields.append('credit_loan')
+        if hasattr(UserModel, 'deposits'):
+            extra_fields.append('deposits')
+        if hasattr(UserModel, 'savings'):
+            extra_fields.append('savings')
+        if hasattr(UserModel, 'creditloans'):
+            extra_fields.append('creditloans')
         if hasattr(UserModel, 'is_staff'):
             extra_fields.append('is_staff')
         if hasattr(UserModel, 'profile_image'):
             extra_fields.append('profile_image')
         model = UserModel
-        fields = ('username','email', 'gender', 'age', 'birthday', 'salary', 'asset', 'debt', 'deposit', 'saving', 'credit_loan', 'profile_image')
+        fields = ('username','email', 'gender', 'age', 'birthday', 'salary', 'asset', 'debt', 'deposits', 'savings', 'creditloans', 'profile_image')
         read_only_fields = ('username',)
+
+class UserDepositSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserDeposit
+        fields = '__all__'
+
+class UserSavingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserSaving
+        fields = '__all__'
+
+class UserCreditLoanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserCreditLoan
+        fields = '__all__'
+        

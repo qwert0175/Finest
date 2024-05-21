@@ -16,6 +16,7 @@
         <p><strong>가입대상:</strong> {{ deposit.join_member }}</p>
         <p><strong>최고한도:</strong> {{ deposit.max_limit || '없음' }}</p>
       </div>
+      <button @click="onUserProducts">가입하기</button>
       <div class="options-container">
         <div v-for="option in depositOptions" :key="option.save_trm" class="option-item">
           <button @click="setOptionState(option.save_trm)" :class="{ active: option.save_trm === optionState }">
@@ -39,12 +40,14 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useUserInfoStore } from '@/stores/userinfo';
 import axios from 'axios';
 
 const route = useRoute();
 const deposit = ref(null);
 const depositOptions = ref([]);
 const optionState = ref(null);
+const userInfoStore = useUserInfoStore();
 
 onMounted(() => {
   const depositId = route.params.id;
@@ -58,6 +61,27 @@ onMounted(() => {
       console.error(err);
     });
 });
+
+const onUserProducts = () => {
+  console.log(`Token ${userInfoStore.token}`);
+  axios ({
+    method: 'put',
+    url: 'http://127.0.0.1:8000/accounts/deposit/',
+    data: {
+      username: userInfoStore.username,
+      fin_prdt_cd: deposit.value.fin_prdt_cd
+    },
+    headers: {
+      'Authorization': `Token ${userInfoStore.token}`
+    }
+  })
+  .then(res => {
+    console.log(res.data);
+  })
+  .catch(err => {
+    console.error(err);
+  })
+}
 
 const setOptionState = (saveTrm) => {
   optionState.value = saveTrm;

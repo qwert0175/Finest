@@ -61,6 +61,7 @@ const logOut = () => {
       router.push({name: 'homeview'})
     })
     .catch(err => {
+      console.log(err)
       for (const e in err.response.data) {
         alert(err.response.data[e])
       }
