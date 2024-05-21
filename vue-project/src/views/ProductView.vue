@@ -4,11 +4,11 @@
       <p class="page-title-text">예적금 금리 비교</p>
     </div>
     <div class="choose-product">
-      <button :class="{onSelected: isDeposit}" @click="isDeposit = true">예금</button>
-      <button :class="{onSelected: !isDeposit}" @click="isDeposit = false">적금</button>
+      <button :class="{onSelected: userinfoStore.isDeposit}" @click="userinfoStore.isDeposit = true">예금</button>
+      <button :class="{onSelected: !userinfoStore.isDeposit}" @click="userinfoStore.isDeposit = false">적금</button>
     </div>
     <div class="product-section">
-      <DepositInfo v-if="isDeposit" />
+      <DepositInfo v-if="userinfoStore.isDeposit" />
       <SavingInfo v-else/>
     </div>
   </div>
@@ -18,8 +18,8 @@
 import {ref} from 'vue'
 import DepositInfo from '@/components/DepositInfo.vue'
 import SavingInfo from '@/components/SavingInfo.vue'
-
-const isDeposit = ref(true)
+import { useUserInfoStore } from '@/stores/userinfo';
+const userinfoStore = useUserInfoStore()
 </script>
 
 <style scoped>

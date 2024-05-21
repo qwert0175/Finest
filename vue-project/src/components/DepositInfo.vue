@@ -62,7 +62,11 @@
         <tbody>
           <tr v-for="deposit in filteredAndSortedDeposits" :key="deposit.fin_prdt_cd">
             <td>{{ deposit.kor_co_nm }}</td>
-            <td>{{ deposit.fin_prdt_nm }}</td>
+            <td>
+            <router-link :to="{ name: 'depositdetail', params: { id: deposit.fin_prdt_cd }}">
+              {{ deposit.fin_prdt_nm }}
+            </router-link>
+            </td>
             <td>{{ getRate(deposit.fin_prdt_cd, 1) }}</td>
             <td>{{ getRate(deposit.fin_prdt_cd, 3) }}</td>
             <td>{{ getRate(deposit.fin_prdt_cd, 6) }}</td>

@@ -62,7 +62,11 @@
         <tbody>
           <tr v-for="saving in filteredAndSortedSavings" :key="saving.fin_prdt_cd">
             <td>{{ saving.kor_co_nm }}</td>
-            <td>{{ saving.fin_prdt_nm }}</td>
+            <td>
+              <router-link :to="{ name: 'savingdetail', params: { id: saving.fin_prdt_cd }}">
+                {{ saving.fin_prdt_nm }}
+              </router-link>
+            </td>
             <td>{{ getRate(saving.fin_prdt_cd, 1) }}</td>
             <td>{{ getRate(saving.fin_prdt_cd, 3) }}</td>
             <td>{{ getRate(saving.fin_prdt_cd, 6) }}</td>
@@ -242,32 +246,3 @@ th.sortable.sort-desc::after {
   content: " \25BC";
 }
 </style>
-
-
-<!-- <template>
-    <div class="product-container">
-        <div class="product-container" v-for="saving in savings">
-            <p>{{ saving.fin_prdt_nm }}</p>
-            <p>{{ saving.kor_co_nm }}</p>
-        </div>
-    </div>
-</template>
-
-<script setup>
-import axios from 'axios';
-import { ref } from 'vue'
-
-const savings = ref(null)
-const savingOptions = ref(null)
-axios.get('http://127.0.0.1:8000/products/saving/')
-  .then(response => {
-    savings.value = response.data.savings
-    savingOptions.value = response.data.saving_options
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-</script>
-
-<style scoped>
-</style> -->
