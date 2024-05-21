@@ -26,10 +26,10 @@
             </RouterLink>
         </div>
         <div class="bottom-container d-flex">
-            <div class="product-info">
+            <div class="bottom-item">
                 <p>공지사항</p>
             </div>
-            <div class="find-bank">
+            <div class="bottom-item">
                 <p>자유게시판</p>
             </div>
         </div>
@@ -46,45 +46,60 @@ import ExchangeCalculator from '@/components/ExchangeCalculator.vue';
     --bs-gutter-x: 0;
 }
 
+.top-container {
+    margin-bottom: 20px;
+}
+
 .middle-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-around;
-    margin: 30px 0px 30px 0px;
+    margin: 30px 0;
 }
 
 .middle-item {
     color: white;
-    /* background-color: #1F2261; */
     text-align: center;
-    align-content: center;
     width: 250px;
     height: 200px;
-}
-
-.middle-item p {
-    margin: 0
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
 }
 
 .product {
     background-color: #3751FE;
-    border-radius: 20px;
 }
 
 .map {
     background-color: #E47643;
-    border-radius: 20px;
 }
 
 .recommend {
     background-color: black;
-    border-radius: 20px;
 }
 
 .bottom-container {
-    background-color: green;
+    display: flex;
+    justify-content: space-around;
     width: 100%;
-    height: 250px;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.bottom-item {
+    flex: 1;
+    text-align: center;
+    margin: 0 10px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-item p {
+    margin: 0;
+    color: #333;
 }
 
 @media (max-width: 768px) {
@@ -95,6 +110,16 @@ import ExchangeCalculator from '@/components/ExchangeCalculator.vue';
 
     .middle-item {
         margin-bottom: 20px;
+    }
+
+    .bottom-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bottom-item {
+        margin-bottom: 20px;
+        width: 80%;
     }
 }
 </style>

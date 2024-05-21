@@ -90,3 +90,25 @@ def getCreditLoans(request):
         "creditloans": creditloans_serializer.data,
         "creditloan_options": creditloan_options_serializer.data
     }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getDepositOne(request, fin_cd):
+    deposit = Deposit.objects.get(fin_prdt_cd=fin_cd)
+    deposit_option = DepositOptions.objects.filter(fin_prdt_cd=fin_cd)
+    deposit_serializer = DepositSerializer(deposit)
+    deposit_option_serializer = DepositOptionsSerializer(deposit_option, many=True)
+    return Response({
+        "deposit": deposit_serializer.data,
+        "deposit_options": deposit_option_serializer.data
+    }, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getSavingOne(request, fin_cd):
+    saving = Saving.objects.get(fin_prdt_cd=fin_cd)
+    saving_option = SavingOptions.objects.filter(fin_prdt_cd=fin_cd)
+    saving_serializer = SavingSerializer(saving)
+    saving_option_serializer = SavingOptionsSerializer(saving_option, many=True)
+    return Response({
+        "saving": saving_serializer.data,
+        "saving_options": saving_option_serializer.data
+    }, status=status.HTTP_200_OK)

@@ -9,6 +9,7 @@ export const useUserInfoStore = defineStore('userinfo', () => {
     const articles = ref([]);
     const username = ref(null);
     const API_URL = 'http://127.0.0.1:8000'
+    const isDeposit = ref(true);
 
     const getArticles = function () {
       axios({
@@ -26,7 +27,7 @@ export const useUserInfoStore = defineStore('userinfo', () => {
         })
     };
   
-    return { token, articles, username, API_URL, getArticles };
+    return { token, articles, username, API_URL, getArticles, isDeposit };
   })
 
 
