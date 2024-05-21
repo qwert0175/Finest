@@ -10,37 +10,50 @@
       <p>게시일 : {{ formatDate(article.created_at) }}</p>
       <p>수정일 : {{ formatDate(article.updated_at) }}</p>
 
-      <button @click="editArticle">수정</button>
+      <div class="back-button">
+          <button @click="goCommunity">뒤로가기</button> 
+        </div>
+      <button @click="editArticle">수정하기</button>
       <button @click="deleteArticle">삭제</button>
     </div>
 
-    <div v-if="article">
-      <h2>댓글</h2>
-      <form @submit.prevent="createComment">
-        <div>
-          <label for="commentContent">댓글 내용:</label>
-          <textarea id="commentContent" v-model="newComment.content" required></textarea>
+    <div class="comments">
+      <h3>댓글</h3>
+      <form @submit.prevent="addComment">
+        <input type="text" v-model="newComment" placeholder="댓글을 입력하세요" />
+        <div class="click-button">
+          <button type="submit">등록</button>
         </div>
-        <button type="submit">댓글 작성</button>
       </form>
+      <ul>
+        <li v-for="comment in comments" :key="comment.id">
+          <p>{{ comment.user }} : {{ comment.content }}</p>
+          <p>{{ formatDate(comment.created_at) }}</p>
+          <button @click="deleteComments(comment.id)">삭제</button>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup>
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useUserInfoStore } from '@/stores/userinfo'
 import { useRoute, useRouter } from 'vue-router'
 
 const userInfoStore = useUserInfoStore()
+console.log(userInfoStore.token)
 const route = useRoute()
 const router = useRouter()
 const article = ref(null)
-const newComment = ref({
-  content: ''
-})
+const comments = ref([])
+const newComment = ref('')
+const commentId = ref('')
 
+const goCommunity = function () {
+  router.push({ name: 'communityview' })
+}
 
 // 게시일, 수정일 맞춤 양식으로 변환
 const formatDate = (dateString) => {
@@ -53,22 +66,6 @@ const formatDate = (dateString) => {
   return `${year}.${month}.${day} ${hours}:${minutes}`
 }
 
-onMounted(() => {
-  axios({
-    method: 'get',
-    url: `${userInfoStore.API_URL}/articles/${route.params.id}/`,
-    headers: {
-      Authorization: `Token ${userInfoStore.token}`
-    }
-  })
-    .then((response) => {
-      // console.log(response.data)
-      article.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-})
 
 const deleteArticle = () => {
   if (confirm('정말로 삭제하시겠습니까?')) {
@@ -79,43 +76,105 @@ const deleteArticle = () => {
         Authorization: `Token ${userInfoStore.token}`
       }
     })
-      .then(() => {
+    .then(() => {
         alert('삭제되었습니다.')
-        router.push({ name: 'communityview' }).then(() => {
-          location.reload()
-        })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+        router.push({ name: 'communityview' })
+    })
   }
 }
-
+  
 const editArticle = () => {
   router.push({ name: 'UpdateView', params: { id: article.value.id } })
 }
 
-const createComment = () => {
+const addComment = async () => {
+  try {
+    // 새 댓글 등록
+    const newCommentResponse = await userInfoStore.newComment(route.params.id, newComment.value)
+    console.log('New comment added:', newCommentResponse)
+
+    // 댓글 등록 후 댓글 목록 다시 가져오기
+    const response = await axios({
+      method: 'get',
+      url: `${userInfoStore.API_URL}/articles/${route.params.id}/comments/`,
+      headers: {
+        Authorization: `Token ${userInfoStore.token}`
+      }
+    })
+    comments.value = response.data
+    console.log('Comments:', comments.value)
+
+    // 입력 필드 초기화
+    newComment.value = '' 
+  } catch (error) {
+    console.error('Failed to add comment:', error)
+    alert('댓글 등록에 실패했습니다.')
+  }
+}
+
+// const deleteComments = async (parameter) => {
+//     try {
+//         await userInfoStore.deleteComment(route.params.id, parameter)
+//     alert('댓글이 삭제되었습니다.')
+//   } catch (error) {
+//       console.error('Failed to delete post:', error)
+//       alert('댓글 삭제에 실패했습니다.')
+//     }
+//   }
+
+const deleteComments = async (commentId) => {
+  try {
+    await axios({
+      method: 'delete',
+      url: `${userInfoStore.API_URL}/articles/${route.params.id}/comment_detail/${commentId}/`,
+      headers: {
+        Authorization: `Token ${userInfoStore.token}`
+      }
+    })
+    // 댓글 삭제 후 댓글 목록 다시 가져오기
+    const response = await axios({
+      method: 'get',
+      url: `${userInfoStore.API_URL}/articles/${route.params.id}/comments/`,
+      headers: {
+        Authorization: `Token ${userInfoStore.token}`
+      }
+    })
+    comments.value = response.data
+  } catch (error) {
+    console.error('Failed to delete comment:', error)
+    alert('댓글 삭제에 실패했습니다.')
+  }
+}
+  
+onMounted(() => {
+  console.log(userInfoStore.token)
   axios({
-    method: 'post',
-    url: `${userInfoStore.API_URL}/articles/${route.params.id}/comments/`,
+    method: 'get',
+    url: `${userInfoStore.API_URL}/articles/${route.params.id}/`,
     headers: {
       Authorization: `Token ${userInfoStore.token}`
-    },
-    data: {
-      content: newComment.value.content
     }
   })
-    .then(() => {
-      alert('댓글이 작성되었습니다.')
-      newComment.value.content = '' // Clear the comment input field
-      // Reload the page or update the comment list if implemented
+    .then((response) => {
+      // console.log(response.data)
+      article.value = response.data
+      // 댓글 정보 가져오기
+      return axios({
+        method: 'get',
+        url: `${userInfoStore.API_URL}/articles/${route.params.id}/comments/`,
+        headers: {
+          Authorization: `Token ${userInfoStore.token}`
+        }
+      })
+    })
+    .then((response) => {
+      // 댓글 정보 설정
+      comments.value = response.data
     })
     .catch((error) => {
       console.log(error)
     })
-}
-
+})
 </script>
 
 
