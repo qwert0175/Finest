@@ -18,7 +18,7 @@
         <img src="@/assets/img/signup_kakao.jpg" alt="signup_kakao">
       </div>
     </div>
-    <p>이미 회원이신가요? <a href="/login">로그인</a></p>
+    <p>이미 회원이신가요? <a href="/loginview">로그인</a></p>
   </div>
 </template>
 
