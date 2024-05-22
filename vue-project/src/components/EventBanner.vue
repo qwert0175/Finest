@@ -4,13 +4,13 @@
             <div class="carousel-overlay"></div>
             <div class="carousel-inner pt-4">
                 <div class="carousel-item active">
-                    <img src="https://flexible.img.hani.co.kr/flexible/normal/960/960/imgdb/resize/2019/0121/00501111_20190121.JPG" class="d-block w-100" alt="...">
+                    <img src="@/assets/img/banner/banner1.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="https://flexible.img.hani.co.kr/flexible/normal/960/960/imgdb/resize/2019/0121/00501111_20190121.JPG" class="d-block w-100" alt="...">
+                    <img src="@/assets/img/banner/banner2.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="https://flexible.img.hani.co.kr/flexible/normal/960/960/imgdb/resize/2019/0121/00501111_20190121.JPG" class="d-block w-100" alt="...">
+                    <img src="@/assets/img/banner/banner3.jpg" class="d-block w-100" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -67,8 +67,8 @@
 
 .carousel-item img {
     display: block;
-    max-width: 600px; /* 이미지의 최대 너비 제한 */
-    max-height: 400px; /* 이미지의 최대 높이 제한 */
+    /* max-width: 600px;
+    max-height: 400px; */
     width: auto; /* 자동 너비 조정 */
     margin: auto;
     object-fit: contain; /* 콘텐츠 비율을 유지하며 채웁니다 */

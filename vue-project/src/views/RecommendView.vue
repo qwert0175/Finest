@@ -5,98 +5,111 @@
     </div>
     <div class="container">
       <div v-if="user" class="user-info">
-        <h1>User Information</h1>
-        <p><strong>Username:</strong> {{ user.username }}</p>
-        <p><strong>Age:</strong> {{ user.age }}</p>
-        <p><strong>Gender:</strong> {{ user.gender }}</p>
+        <h1>유저 정보</h1>
+        <p><strong>아이디:</strong> {{ user.username }}</p>
+        <p><strong>연령:</strong> {{ user.age }}</p>
+        <p><strong>성별:</strong> {{ user.gender }}</p>
 
-        <!-- 예금 정보 출력 -->
-        <h2>가입한 예금상품</h2>
-        <ul v-if="user.deposits.length > 0" class="product-list">
-          <li v-for="deposit in user.deposits" :key="deposit.code" class="product-item">
-            <RouterLink :to="{ name: 'depositdetail', params: { id: deposit.code } }">
-              <div class="product-info">
-                <img :src="`src/assets/img/bank/${deposit.bank}.svg`" alt="은행 로고" class="bank-logo">
-                <div class="product-details">
-                  <div class="product-bank">{{ deposit.bank }}</div>
-                  <div class="product-name">{{ deposit.name }}</div>
-                  <div class="product-rates">
-                    <span class="base-rate">기본금리: {{ deposit.base_rate }}%</span>
-                    <span class="max-rate">우대금리: {{ deposit.max_rate }}%</span>
+        <div class="button-container">
+          <button :class="{ active: currentTab === 'deposits' }" @click="currentTab = 'deposits'">예금</button>
+          <button :class="{ active: currentTab === 'savings' }" @click="currentTab = 'savings'">적금</button>
+        </div>
+
+        <div v-if="currentTab === 'deposits'">
+          <!-- 예금 정보 출력 -->
+          <h2>가입한 예금상품</h2>
+          <ul v-if="user.deposits.length > 0" class="product-list">
+            <li v-for="deposit in user.deposits" :key="deposit.code" class="product-item">
+              <RouterLink :to="{ name: 'depositdetail', params: { id: deposit.code } }">
+                <div class="product-info">
+                  <img :src="`src/assets/img/bank/${deposit.bank}.svg`" alt="은행 로고" class="bank-logo">
+                  <div class="product-details">
+                    <div class="product-bank">{{ deposit.bank }}</div>
+                    <div class="product-name">{{ deposit.name }}</div>
+                    <div class="product-rates">
+                      <span class="base-rate">기본금리: {{ deposit.base_rate }}%</span>
+                      <span class="max-rate">우대금리: {{ deposit.max_rate }}%</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </RouterLink>
-          </li>
-        </ul>
-        <p v-else>가입한 예금상품이 없습니다.</p>
+              </RouterLink>
+            </li>
+          </ul>
+          <p v-else>가입한 예금상품이 없습니다.</p>
 
-        <!-- 적금 정보 출력 -->
-        <h2>가입한 적금상품</h2>
-        <ul v-if="user.savings.length > 0" class="product-list">
-          <li v-for="saving in user.savings" :key="saving.code" class="product-item">
-            <RouterLink :to="{ name: 'savingdetail', params: { id: saving.code } }">
-              <div class="product-info">
-                <img :src="`src/assets/img/bank/${saving.bank}.svg`" alt="은행 로고" class="bank-logo">
-                <div class="product-details">
-                  <div class="product-bank">{{ saving.bank }}</div>
-                  <div class="product-name">{{ saving.name }}</div>
-                  <div class="product-rates">
-                    <span class="base-rate">기본금리: {{ saving.base_rate }}%</span>
-                    <span class="max-rate">우대금리: {{ saving.max_rate }}%</span>
+          <div v-if="recommendations">
+            <h2>추천 예금상품</h2>
+            <ul v-if="recommendations.top_deposits.length > 0" class="product-list">
+              <li v-for="deposit in recommendations.top_deposits" :key="deposit.code" class="product-item">
+                <RouterLink :to="{ name: 'depositdetail', params: { id: deposit.code } }">
+                  <div class="product-info">
+                    <img :src="`src/assets/img/bank/${deposit.bank}.svg`" alt="은행 로고" class="bank-logo">
+                    <div class="product-details">
+                      <div class="product-bank">{{ deposit.bank }}</div>
+                      <div class="product-name">{{ deposit.name }}</div>
+                      <div class="product-rates">
+                        <span class="base-rate">기본금리: {{ deposit.base_rate }}%</span>
+                        <span class="max-rate">우대금리: {{ deposit.max_rate }}%</span>
+                      </div>
+                    </div>
+                  </div>
+                </RouterLink>
+              </li>
+            </ul>
+            <img v-if="recommendations.deposit_graph" :src="'data:image/png;base64,' + recommendations.deposit_graph" alt="Top Deposits Graph" class="graph" />
+            <p v-else>추천할 예금상품이 없습니다.</p>
+          </div>
+        </div>
+
+        <div v-if="currentTab === 'savings'">
+          <!-- 적금 정보 출력 -->
+          <h2>가입한 적금상품</h2>
+          <ul v-if="user.savings.length > 0" class="product-list">
+            <li v-for="saving in user.savings" :key="saving.code" class="product-item">
+              <RouterLink :to="{ name: 'savingdetail', params: { id: saving.code } }">
+                <div class="product-info">
+                  <img :src="`src/assets/img/bank/${saving.bank}.svg`" alt="은행 로고" class="bank-logo">
+                  <div class="product-details">
+                    <div class="product-bank">{{ saving.bank }}</div>
+                    <div class="product-name">{{ saving.name }}</div>
+                    <div class="product-rates">
+                      <span class="base-rate">기본금리: {{ saving.base_rate }}%</span>
+                      <span class="max-rate">우대금리: {{ saving.max_rate }}%</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </RouterLink>
-          </li>
-        </ul>
-        <p v-else>가입한 적금상품이 없습니다.</p>
+              </RouterLink>
+            </li>
+          </ul>
+          <p v-else>가입한 적금상품이 없습니다.</p>
+
+          <div v-if="recommendations">
+            <h2>추천 적금상품</h2>
+            <ul v-if="recommendations.top_savings.length > 0" class="product-list">
+              <li v-for="saving in recommendations.top_savings" :key="saving.code" class="product-item">
+                <RouterLink :to="{ name: 'savingdetail', params: { id: saving.code } }">
+                  <div class="product-info">
+                    <img :src="`src/assets/img/bank/${saving.bank}.svg`" alt="은행 로고" class="bank-logo">
+                    <div class="product-details">
+                      <div class="product-bank">{{ saving.bank }}</div>
+                      <div class="product-name">{{ saving.name }}</div>
+                      <div class="product-rates">
+                        <span class="base-rate">기본금리: {{ saving.base_rate }}%</span>
+                        <span class="max-rate">우대금리: {{ saving.max_rate }}%</span>
+                      </div>
+                    </div>
+                  </div>
+                </RouterLink>
+              </li>
+            </ul>
+            <img v-if="recommendations.saving_graph" :src="'data:image/png;base64,' + recommendations.saving_graph" alt="Top Savings Graph" class="graph" />
+            <p v-else>추천할 적금상품이 없습니다.</p>
+          </div>
+        </div>
       </div>
+
       <div v-if="loading" class="loading">로딩 중입니다.</div>
       <div v-if="error" class="error">{{ error }}</div>
-      <div v-if="recommendations" class="recommendations">
-        <h2>추천 예금상품</h2>
-        <ul v-if="recommendations.top_deposits.length > 0" class="product-list">
-          <li v-for="deposit in recommendations.top_deposits" :key="deposit.code" class="product-item">
-            <RouterLink :to="{ name: 'depositdetail', params: { id: deposit.code } }">
-              <div class="product-info">
-                <img :src="`src/assets/img/bank/${deposit.bank}.svg`" alt="은행 로고" class="bank-logo">
-                <div class="product-details">
-                  <div class="product-bank">{{ deposit.bank }}</div>
-                  <div class="product-name">{{ deposit.name }}</div>
-                  <div class="product-rates">
-                    <span class="base-rate">기본금리: {{ deposit.base_rate }}%</span>
-                    <span class="max-rate">우대금리: {{ deposit.max_rate }}%</span>
-                  </div>
-                </div>
-              </div>
-            </RouterLink>
-          </li>
-        </ul>
-        <img v-if="recommendations.deposit_graph" :src="'data:image/png;base64,' + recommendations.deposit_graph" alt="Top Deposits Graph" class="graph" />
-        <p v-else>추천할 예금상품이 없습니다.</p>
-
-        <h2>추천 적금상품</h2>
-        <ul v-if="recommendations.top_savings.length > 0" class="product-list">
-          <li v-for="saving in recommendations.top_savings" :key="saving.code" class="product-item">
-            <RouterLink :to="{ name: 'savingdetail', params: { id: saving.code } }">
-              <div class="product-info">
-                <img :src="`src/assets/img/bank/${saving.bank}.svg`" alt="은행 로고" class="bank-logo">
-                <div class="product-details">
-                  <div class="product-bank">{{ saving.bank }}</div>
-                  <div class="product-name">{{ saving.name }}</div>
-                  <div class="product-rates">
-                    <span class="base-rate">기본금리: {{ saving.base_rate }}%</span>
-                    <span class="max-rate">우대금리: {{ saving.max_rate }}%</span>
-                  </div>
-                </div>
-              </div>
-            </RouterLink>
-          </li>
-        </ul>
-        <img v-if="recommendations.saving_graph" :src="'data:image/png;base64,' + recommendations.saving_graph" alt="Top Savings Graph" class="graph" />
-        <p v-else>추천할 적금상품이 없습니다.</p>
-      </div>
     </div>
   </div>
 </template>
@@ -112,6 +125,8 @@ const recommendations = ref(null);
 const loading = ref(false);
 const error = ref(null);
 const userInfoStore = useUserInfoStore();
+
+const currentTab = ref('deposits'); // Add a reactive variable to handle tab state
 
 const router = useRouter();
 const route = useRoute();
@@ -302,5 +317,32 @@ li:hover {
   margin-top: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.button-container button {
+  background-color: #e0e0e0; /* Slightly darker background for better visibility */
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  color: #666; /* Darker text color for better visibility */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button-container button:hover {
+  background-color: #ccc; /* Darker hover background */
+}
+
+.button-container button.active {
+  background-color: #007bff;
+  color: white;
 }
 </style>

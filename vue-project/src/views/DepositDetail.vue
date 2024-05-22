@@ -16,7 +16,9 @@
         <p><strong>가입대상:</strong> {{ deposit.join_member }}</p>
         <p><strong>최고한도:</strong> {{ deposit.max_limit || '없음' }}</p>
       </div>
-      <button @click="onUserProducts">가입하기</button>
+      <button @click="subscribe" :class="{ 'unsubscribe-button': isSubscribed }">
+        {{ isSubscribed ? '탈퇴하기' : '가입하기' }}
+      </button>
       <div class="options-container">
         <div v-for="option in depositOptions" :key="option.save_trm" class="option-item">
           <button @click="setOptionState(option.save_trm)" :class="{ active: option.save_trm === optionState }">
@@ -48,6 +50,7 @@ const deposit = ref(null);
 const depositOptions = ref([]);
 const optionState = ref(null);
 const userInfoStore = useUserInfoStore();
+const isSubscribed = ref(false);
 
 onMounted(() => {
   const depositId = route.params.id;
@@ -56,14 +59,31 @@ onMounted(() => {
       deposit.value = res.data.deposit;
       depositOptions.value = res.data.deposit_options;
       optionState.value = depositOptions.value[0].save_trm; // 기본 선택 값 설정
+      checkSubscription();
     })
     .catch(err => {
       console.error(err);
     });
 });
 
-const onUserProducts = () => {
-  axios ({
+const checkSubscription = () => {
+  axios.get(`http://127.0.0.1:8000/accounts/${userInfoStore.username}/deposit/check/${deposit.value.fin_prdt_cd}/`, {
+    headers: {
+      'Authorization': `Token ${userInfoStore.token}`
+    }
+  })
+  .then(res => {
+    const userProducts = res.data;
+    isSubscribed.value = userProducts.is_subscribed;
+
+  })
+  .catch(err => {
+    console.error(err);
+  });
+};
+
+const subscribe = () => {
+  axios({
     method: 'post',
     url: 'http://127.0.0.1:8000/accounts/deposit/',
     headers: {
@@ -75,12 +95,13 @@ const onUserProducts = () => {
     },
   })
   .then(res => {
+    isSubscribed.value = !isSubscribed.value;
     console.log(res.data);
   })
   .catch(err => {
     console.error(err);
-  })
-}
+  });
+};
 
 const setOptionState = (saveTrm) => {
   optionState.value = saveTrm;
@@ -160,6 +181,14 @@ button.active {
 
 button:hover {
   background-color: #2a3cbf;
+}
+
+button.unsubscribe-button {
+  background-color: #FF0000;
+}
+
+button.unsubscribe-button:hover {
+  background-color: #CC0000;
 }
 
 .selected-option {

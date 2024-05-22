@@ -16,7 +16,9 @@
         <p><strong>가입대상:</strong> {{ saving.join_member }}</p>
         <p><strong>최고한도:</strong> {{ saving.max_limit || '없음' }}</p>
       </div>
-      <button @click="onUserProducts">가입하기</button>
+      <button @click="subscribe" :class="{ 'unsubscribe-button': isSubscribed }">
+        {{ isSubscribed ? '탈퇴하기' : '가입하기' }}
+      </button>
       <div v-for="(options, type) in groupedSavingOptions" :key="type" class="options-group">
         <div class="options-group-title">{{ type }}</div>
         <div class="options-container">
@@ -52,6 +54,7 @@ const saving = ref(null);
 const savingOptions = ref([]);
 const optionState = ref({ type: null, term: null });
 const userInfoStore = useUserInfoStore();
+const isSubscribed = ref(false);
 
 onMounted(() => {
   const savingId = route.params.id;
@@ -63,14 +66,31 @@ onMounted(() => {
         type: savingOptions.value[0].rsrv_type_nm,
         term: savingOptions.value[0].save_trm
       }; // 기본 선택 값 설정
+      checkSubscription();
     })
     .catch(err => {
       console.error(err);
     });
 });
 
-const onUserProducts = () => {
-  axios ({
+const checkSubscription = () => {
+  axios.get(`http://127.0.0.1:8000/accounts/${userInfoStore.username}/saving/check/${saving.value.fin_prdt_cd}/`, {
+    headers: {
+      'Authorization': `Token ${userInfoStore.token}`
+    }
+  })
+  .then(res => {
+    const userProducts = res.data;
+    isSubscribed.value = userProducts.is_subscribed;
+
+  })
+  .catch(err => {
+    console.error(err);
+  });
+};
+
+const subscribe = () => {
+  axios({
     method: 'post',
     url: 'http://127.0.0.1:8000/accounts/saving/',
     headers: {
@@ -82,12 +102,13 @@ const onUserProducts = () => {
     },
   })
   .then(res => {
+    isSubscribed.value = !isSubscribed.value;
     console.log(res.data);
   })
   .catch(err => {
     console.error(err);
-  })
-}
+  });
+};
 
 const setOptionState = (type, term) => {
   optionState.value = { type, term };
@@ -187,6 +208,14 @@ button.active {
 
 button:hover {
   background-color: #2a3cbf; /* 호버 시 배경색 변경 */
+}
+
+button.unsubscribe-button {
+  background-color: #FF0000;
+}
+
+button.unsubscribe-button:hover {
+  background-color: #CC0000;
 }
 
 .selected-option {
