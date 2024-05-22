@@ -82,6 +82,7 @@
       <button @click="goCommunity">목록</button> 
     </div>
   </div>
+  {{ article }}
 </template>
 
 <script setup>
