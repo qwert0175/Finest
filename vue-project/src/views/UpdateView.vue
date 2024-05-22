@@ -11,7 +11,7 @@
         <textarea v-model.trim="articleData.content" id="content" class="form-textarea"></textarea>
       </div>
       <div class="form-actions">
-        <input type="submit" class="submit-button" value="수정">
+        <input type="submit" class="submit-button" value="저장">
         <button type="button" class="cancel-button" @click="cancelUpdate">취소</button>
       </div>
     </form>
