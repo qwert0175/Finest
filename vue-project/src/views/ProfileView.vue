@@ -4,21 +4,6 @@
         <p>이메일: {{ userData.email }}</p>
         <p>성별: {{ userData.gender }}</p>
         <p>생일: {{ userData.birthday }}</p>
-        <p>월 수입: {{ userData.salary }}</p>
-        <p>자산: {{ userData.asset }}</p>
-        <p>부채: {{ userData.debt }}</p>
-        <p>가입한 예금 정보</p>
-        <ul>
-            <li v-for="deposit in userProducts.deposits">{{ deposit.deposit }}</li>
-        </ul>
-        <p>가입한 적금 정보</p>
-        <ul>
-            <li v-for="saving in userProducts.savings">{{ saving.saving }}</li>
-        </ul>
-        <p>가입 대출</p>
-        <ul>
-            
-        </ul>
     </div>
 </template>
 

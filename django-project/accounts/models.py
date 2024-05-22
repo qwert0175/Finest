@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from products.models import Deposit, DepositOptions, Saving, SavingOptions, CreditLoan
+from datetime import date
 
 
 class User(AbstractUser):
@@ -32,14 +33,14 @@ class User(AbstractUser):
 class UserDeposit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     deposit = models.ForeignKey(Deposit, on_delete=models.CASCADE)
-    join_date = models.DateField()
+    join_date = models.DateField(default=date.today)
 
 class UserSaving(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     saving = models.ForeignKey(Saving, on_delete=models.CASCADE)
-    join_date = models.DateField()
+    join_date = models.DateField(default=date.today)
 
 class UserCreditLoan(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     creditloan = models.ForeignKey(CreditLoan, on_delete=models.CASCADE)
-    join_date = models.DateField()
+    join_date = models.DateField(default=date.today)

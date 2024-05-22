@@ -14,6 +14,7 @@ def article_list(request):
         articles = get_list_or_404(Article)
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data)
+        
 
     elif request.method == 'POST':
         serializer = ArticleSerializer(data=request.data)
