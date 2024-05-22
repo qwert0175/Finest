@@ -16,6 +16,8 @@ import seaborn as sns
 import io
 import base64
 import textwrap
+from products.models import DepositOptions, SavingOptions, CreditLoanOptions
+from django.db.models import Avg
 
 @api_view(['GET', 'DELETE', 'PUT'])
 @permission_classes([IsAuthenticated])
@@ -133,14 +135,38 @@ def getUserInfo(request, username):
         user = User.objects.get(username=username)
         
         # 사용자가 가입한 예적금 정보 조회
-        user_deposits = UserDeposit.objects.filter(user=user).values('deposit__fin_prdt_nm', 'deposit__fin_prdt_cd')
-        user_savings = UserSaving.objects.filter(user=user).values('saving__fin_prdt_nm', 'saving__fin_prdt_cd')
+        user_deposits = UserDeposit.objects.filter(user=user)
+        user_savings = UserSaving.objects.filter(user=user)
 
         # 예금 정보 정리
-        deposits = [{'name': deposit['deposit__fin_prdt_nm'], 'code': deposit['deposit__fin_prdt_cd']} for deposit in user_deposits]
+        deposits = []
+        for user_deposit in user_deposits:
+            deposit_product = user_deposit.deposit
+            deposit_options = DepositOptions.objects.filter(fin_prdt_cd=deposit_product.fin_prdt_cd)
+            base_rate = deposit_options.aggregate(Avg('intr_rate'))['intr_rate__avg'] or 0
+            max_rate = deposit_options.aggregate(Avg('intr_rate2'))['intr_rate2__avg'] or 0
+            deposits.append({
+                'name': deposit_product.fin_prdt_nm,
+                'code': deposit_product.fin_prdt_cd,
+                'bank': deposit_product.kor_co_nm,
+                'base_rate': round(base_rate, 2),
+                'max_rate': round(max_rate, 2)
+            })
 
         # 적금 정보 정리
-        savings = [{'name': saving['saving__fin_prdt_nm'], 'code': saving['saving__fin_prdt_cd']} for saving in user_savings]
+        savings = []
+        for user_saving in user_savings:
+            saving_product = user_saving.saving
+            saving_options = SavingOptions.objects.filter(fin_prdt_cd=saving_product.fin_prdt_cd)
+            base_rate = saving_options.aggregate(Avg('intr_rate'))['intr_rate__avg'] or 0
+            max_rate = saving_options.aggregate(Avg('intr_rate2'))['intr_rate2__avg'] or 0
+            savings.append({
+                'name': saving_product.fin_prdt_nm,
+                'code': saving_product.fin_prdt_cd,
+                'bank': saving_product.kor_co_nm,
+                'base_rate': round(base_rate, 2),
+                'max_rate': round(max_rate, 2)
+            })
 
         user_data = {
             "username": user.username,
@@ -182,7 +208,6 @@ def create_graph(data, title):
     plt.close()
     return image_base64
 
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getProductRecommend(request, username):
@@ -222,18 +247,30 @@ def getProductRecommend(request, username):
     top_deposit_details = []
     for fin_prdt_cd, count in top_deposits:
         deposit_product = Deposit.objects.get(fin_prdt_cd=fin_prdt_cd)
+        deposit_options = DepositOptions.objects.filter(fin_prdt_cd=fin_prdt_cd)
+        base_rate = deposit_options.aggregate(Avg('intr_rate'))['intr_rate__avg'] or 0
+        max_rate = deposit_options.aggregate(Avg('intr_rate2'))['intr_rate2__avg'] or 0
         top_deposit_details.append({
             'name': deposit_product.fin_prdt_nm,
             'code': deposit_product.fin_prdt_cd,
+            'bank': deposit_product.kor_co_nm,
+            'base_rate': round(base_rate, 2),
+            'max_rate': round(max_rate, 2),
             'count': count
         })
 
     top_saving_details = []
     for fin_prdt_cd, count in top_savings:
         saving_product = Saving.objects.get(fin_prdt_cd=fin_prdt_cd)
+        saving_options = SavingOptions.objects.filter(fin_prdt_cd=fin_prdt_cd)
+        base_rate = saving_options.aggregate(Avg('intr_rate'))['intr_rate__avg'] or 0
+        max_rate = saving_options.aggregate(Avg('intr_rate2'))['intr_rate2__avg'] or 0
         top_saving_details.append({
             'name': saving_product.fin_prdt_nm,
             'code': saving_product.fin_prdt_cd,
+            'bank': saving_product.kor_co_nm,
+            'base_rate': round(base_rate, 2),
+            'max_rate': round(max_rate, 2),
             'count': count
         })
 
@@ -247,3 +284,93 @@ def getProductRecommend(request, username):
         "deposit_graph": deposit_graph,
         "saving_graph": saving_graph
     })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserProductGraph(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({"error": "User not found"}, status=404)
+    
+    try:
+        user_deposits = UserDeposit.objects.filter(user=user)
+        user_savings = UserSaving.objects.filter(user=user)
+
+        user_deposit_details = []
+        for user_deposit in user_deposits:
+            deposit_product = user_deposit.deposit
+            deposit_options = DepositOptions.objects.filter(fin_prdt_cd=deposit_product.fin_prdt_cd)
+            base_rate = deposit_options.aggregate(Avg('intr_rate'))['intr_rate__avg'] or 0
+            max_rate = deposit_options.aggregate(Avg('intr_rate2'))['intr_rate2__avg'] or 0
+            user_deposit_details.append({
+                'name': deposit_product.fin_prdt_nm,
+                'code': deposit_product.fin_prdt_cd,
+                'bank': deposit_product.kor_co_nm,
+                'base_rate': round(base_rate, 2),
+                'max_rate': round(max_rate, 2)
+            })
+
+        user_saving_details = []
+        for user_saving in user_savings:
+            saving_product = user_saving.saving
+            saving_options = SavingOptions.objects.filter(fin_prdt_cd=saving_product.fin_prdt_cd)
+            base_rate = saving_options.aggregate(Avg('intr_rate'))['intr_rate__avg'] or 0
+            max_rate = saving_options.aggregate(Avg('intr_rate2'))['intr_rate2__avg'] or 0
+            user_saving_details.append({
+                'name': saving_product.fin_prdt_nm,
+                'code': saving_product.fin_prdt_cd,
+                'bank': saving_product.kor_co_nm,
+                'base_rate': round(base_rate, 2),
+                'max_rate': round(max_rate, 2)
+            })
+
+        deposit_interest_rate_graph = None
+        saving_interest_rate_graph = None
+
+        if user_deposit_details:
+            deposit_interest_rate_graph = create_interest_rate_graph(user_deposit_details, "User Deposit Interest Rates")
+
+        if user_saving_details:
+            saving_interest_rate_graph = create_interest_rate_graph(user_saving_details, "User Saving Interest Rates")
+
+        return Response({
+            "user_deposits": user_deposit_details,
+            "user_savings": user_saving_details,
+            "deposit_interest_rate_graph": deposit_interest_rate_graph,
+            "saving_interest_rate_graph": saving_interest_rate_graph
+        })
+    except Exception as e:
+        return Response({"error": str(e)}, status=500)
+
+def create_interest_rate_graph(data, title):
+    labels = [item['name'] for item in data]
+    base_rates = [item['base_rate'] for item in data]
+    max_rates = [item['max_rate'] for item in data]
+
+    wrapped_labels = ['\n'.join(textwrap.wrap(label, 10)) for label in labels]
+
+    plt.figure(figsize=(12, 6))
+    x = range(len(labels))
+    width = 0.35  # 막대의 너비를 조절
+
+    fig, ax = plt.subplots()
+
+    ax.bar(x, base_rates, width=width, label='Base Rate', align='center')
+    ax.bar([i + width for i in x], max_rates, width=width, label='Max Rate', align='center')
+
+    ax.set_xticks([i + width / 2 for i in x])
+    ax.set_xticklabels(wrapped_labels, rotation=0, ha='center')
+
+    ax.legend()
+    ax.set_xlabel('Products')
+    ax.set_ylabel('Interest Rate (%)')
+    ax.set_title(title)
+    plt.tight_layout()
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    image_base64 = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close(fig)
+    return image_base64

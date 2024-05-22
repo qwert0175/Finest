@@ -9,4 +9,5 @@ urlpatterns = [
   path('<str:username>/product/', views.getUserProduct),
   path('<str:username>/check/', views.getUserInfo),
   path('<str:username>/product/recommend/', views.getProductRecommend),
+  path('<str:username>/product/graph/', views.getUserProductGraph),
 ]
