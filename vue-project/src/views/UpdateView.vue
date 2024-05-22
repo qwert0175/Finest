@@ -2,13 +2,13 @@
   <div>
     <h1>게시글 수정 페이지</h1>
     <form @submit.prevent="updateArticleInfo">
-      <div>
+      <!-- <div>
         <label for="category">카테고리 : </label>
         <select v-model.trim="articleData.category" id="category">
           <option value="공지사항">공지사항</option>
           <option value="자유게시판">자유게시판</option>
         </select>
-      </div>
+      </div> -->
       <div>
         <label for="title">제목 : </label>
         <input type="text" v-model.trim="articleData.title" id="title" >
