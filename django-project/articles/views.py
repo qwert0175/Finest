@@ -93,3 +93,30 @@ def likes(request, article_pk):
         article.like_users.add(request.user)
         return Response({'Article liked'}, status=status.HTTP_201_CREATED)
     
+@api_view(['GET'])
+def home_view(request):
+    notice_articles = Article.objects.filter(category=Article.공지사항).order_by('-created_at')[:5]
+    board_articles = Article.objects.filter(category=Article.자유게시판).order_by('-created_at')[:5]
+
+    notice_data = [
+        {
+            "title": article.title,
+            "author": article.user.username,
+            "created_at": article.created_at
+        }
+        for article in notice_articles
+    ]
+
+    board_data = [
+        {
+            "title": article.title,
+            "author": article.user.username,
+            "created_at": article.created_at
+        }
+        for article in board_articles
+    ]
+
+    return Response({
+        "notice": notice_data,
+        "board": board_data
+    })
