@@ -170,9 +170,13 @@ def getUserInfo(request, username):
 
         user_data = {
             "username": user.username,
+            "email": user.email,
             "birthday": user.birthday,
             "age": user.age,
             "gender": user.gender,
+            "salary": user.salary,
+            "asset": user.asset,
+            "debt": user.debt,
             "deposits": deposits,  # 예금 정보 추가
             "savings": savings     # 적금 정보 추가
         }
@@ -374,3 +378,19 @@ def create_interest_rate_graph(data, title):
     image_base64 = base64.b64encode(buf.read()).decode('utf-8')
     plt.close(fig)
     return image_base64
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_deposit(request, username, fin_cd):
+    user = User.objects.get(username=username)
+    deposit = Deposit.objects.get(fin_prdt_cd=fin_cd)
+    is_subscribed = UserDeposit.objects.filter(user=user, deposit=deposit).exists()
+    return JsonResponse({'is_subscribed': is_subscribed})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_saving(request, username, fin_cd):
+    user = User.objects.get(username=username)
+    saving = Saving.objects.get(fin_prdt_cd=fin_cd)
+    is_subscribed = UserSaving.objects.filter(user=user, saving=saving).exists()
+    return JsonResponse({'is_subscribed': is_subscribed})

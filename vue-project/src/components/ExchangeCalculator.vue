@@ -1,9 +1,9 @@
 <template>
     <div class="component">
-      <div class="component-title">
-        <p>환율 계산</p>
-      </div>
       <div class="calculator">
+        <div class="component-title">
+          <p>환율 계산</p>
+        </div>
         <div class="cur-container">
           <div class="form-floating">
             <select class="form-select" id="cur_1" aria-label="cur_1" v-model="cur1">
@@ -81,12 +81,13 @@ const shiftChange = () => {
 
 <style scoped>
 .component {
-  background-color: #F6F6F6;
+  background-color: black;
   height: 100%;
   min-height: 300px;
 }
 
 .component-title {
+  width: 100%;
   padding-top: 10px;
   text-align: center;
   color: #1F2261;
@@ -103,15 +104,8 @@ const shiftChange = () => {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  margin: 0 auto;
-  margin-bottom: 20px;
+  margin: 20px auto;
   width: 80%;
-}
-
-@media (width: 1350px) {
-  .calculator{
-    min-height: 300px;
-  }
 }
 
 .form-select {
