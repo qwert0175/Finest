@@ -16,6 +16,9 @@
           <RouterLink class="nav-link" to="/mapview">은행 찾기</RouterLink>
         </li>
         <li class="nav-item">
+          <RouterLink class="nav-link" to="/recommendview">추천 상품</RouterLink>
+        </li>
+        <li class="nav-item">
           <RouterLink class="nav-link" to="/communityview">게시판</RouterLink>
         </li>
       </ul>

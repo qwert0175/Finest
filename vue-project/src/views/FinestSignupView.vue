@@ -4,25 +4,25 @@
             <p>Finest 회원가입</p>
         </div>
         <form class="finest-signup-form" @submit.prevent="goToFinestSignUpView">
-            <label for="username">아이디(10자 제한)</label>
+            <label for="username">아이디(필수, 10자 제한)</label>
             <input type="text" id="username" maxlength="10" v-model.trim="username"><br>
             
             <label for="email">이메일</label>
             <input type="text" id="email" v-model="email"><br>
             
-            <label for="password1">비밀번호(8자~15자 이내)</label>
+            <label for="password1">비밀번호(필수, 8자~15자 이내)</label>
             <input type="password" id="password1" maxlength="15" v-model.trim="password1"><br>
 
-            <label for="password2">비밀번호 확인</label>
+            <label for="password2">비밀번호 확인(필수)</label>
             <input type="password" id="password2" maxlength="15" v-model.trim="password2"><br>
 
-            <label for="gender">성별</label>
+            <label for="gender">성별(일부 서비스 이용 시 필요)</label>
             <select id="gender" v-model="gender">
                 <option value="남성">남성</option>
                 <option value="여성">여성</option>
             </select><br>
 
-            <label for="birthday">생일</label>
+            <label for="birthday">생일(일부 서비스 이용 시 필요)</label>
             <!-- <input type="date" id="birthday" v-model="birthday"><br> -->
             <Datepicker locale="ko"
               class="datepicker"

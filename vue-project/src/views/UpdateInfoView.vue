@@ -10,13 +10,13 @@
             <label for="email">이메일</label>
             <input type="text" id="email" v-model="userData.email"><br>
 
-            <label for="gender">성별</label>
+            <label for="gender">성별(일부 서비스 이용 시 필요)</label>
             <select id="gender" v-model="userData.gender">
                 <option value="남성">남성</option>
                 <option value="여성">여성</option>
             </select><br>
 
-            <label for="birthday">생일</label>
+            <label for="birthday">생일(일부 서비스 이용 시 필요)</label>
             <!-- <input type="date" id="birthday" v-model="userData.birthday"><br> -->
             <Datepicker locale="ko"
               class="datepicker"
@@ -62,6 +62,21 @@ const userData = ref({
     asset: '',
     debt: ''
 })
+
+const calculateAge = (birthday) => {
+    if (!birthday) {
+      return null
+    } else {
+      const birthDate = new Date(birthday)
+      const today = new Date()
+      let age = today.getFullYear() - birthDate.getFullYear()
+      const monthDifference = today.getMonth() - birthDate.getMonth()
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+          age--
+      }
+      return age
+    }
+  }
 
 const birthdayFormat = (birthday) => {
     if (!birthday) {
@@ -120,13 +135,23 @@ onMounted(() => {
 })
 
 const updateUserInfo = () => {
+    const age = calculateAge(userData.value.birthday)
     axios({
         method: 'put',
         url: `http://127.0.0.1:8000/accounts/${userInfoStore.username}/`,
         headers: {
             'Authorization': `Token ${userInfoStore.token}`
         },
-        data: userData.value
+        data: {
+            username: userData.value.username,
+            email: userData.value.email || null,
+            birthday: birthdayFormat(userData.value.birthday),
+            age: age || null,
+            gender: userData.value.gender || null,
+            salary: userData.value.salary,
+            asset: userData.value.asset,
+            debt: userData.value.debt
+        }
     })
     .then(res => {
         alert('회원 정보가 성공적으로 수정되었습니다.')
