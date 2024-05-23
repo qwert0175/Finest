@@ -22,6 +22,7 @@
               class="datepicker"
               v-model="userData.birthday" 
               :enable-time-picker="false"
+              :max-date="new Date()"
             /><br>
 
             <label for="salary">월 수입</label>
@@ -76,7 +77,7 @@ const calculateAge = (birthday) => {
       }
       return age
     }
-  }
+}
 
 const birthdayFormat = (birthday) => {
     if (!birthday) {
@@ -146,7 +147,7 @@ const updateUserInfo = () => {
             username: userData.value.username,
             email: userData.value.email || null,
             birthday: birthdayFormat(userData.value.birthday),
-            age: age || null,
+            age: age,
             gender: userData.value.gender || null,
             salary: userData.value.salary,
             asset: userData.value.asset,

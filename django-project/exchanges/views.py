@@ -7,6 +7,7 @@ from rest_framework import status
 from .serializers import ExchangeSerializer
 from .models import Exchange
 import requests
+from django.conf import settings
 
 # Create your views here.
 @api_view(['GET', 'POST'])
@@ -18,8 +19,9 @@ def getExchangeInfo(request):
     elif request.method == 'POST':
         for i in range(7):
             today = datetime.now() - timedelta(i)
-            API_KEY = 'ILRkFGOHTVonQF47rmDk9ApE36iifjCw'
-            url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={API_KEY}&searchdate={DateFormat(today).format("Ymd")}&data=AP01'
+            # EXCHANGE_API_KEY = 'ILRkFGOHTVonQF47rmDk9ApE36iifjCw'
+            EXCHANGE_API_KEY = settings.EXCHANGE_API_KEY
+            url = f'https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey={EXCHANGE_API_KEY}&searchdate={DateFormat(today).format("Ymd")}&data=AP01'
             response = requests.get(url)
             datas = response.json()
             if datas != []:

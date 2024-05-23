@@ -3,6 +3,7 @@ from articles import views
 
 urlpatterns = [
     path('', views.article_list),
+    path('create/', views.article_create),
     path('homeview/', views.home_view),
     path('<int:article_pk>/', views.article_detail),
     path('<int:article_pk>/comments/', views.comments),

@@ -7,20 +7,19 @@ from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerial
 from .models import Article, Comment
 
 
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated]) 
+@api_view(['GET'])
 def article_list(request):
-    if request.method == 'GET':
-        articles = get_list_or_404(Article)
-        serializer = ArticleListSerializer(articles, many=True)
-        return Response(serializer.data)
-        
+    articles = Article.objects.all()
+    serializer = ArticleListSerializer(articles, many=True)
+    return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = ArticleSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated]) 
+def article_create(request):
+    serializer = ArticleSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 @api_view(['GET', 'DELETE', 'PUT'])
@@ -99,7 +98,8 @@ def home_view(request):
     board_articles = Article.objects.filter(category=Article.자유게시판).order_by('-created_at')[:5]
 
     notice_data = [
-        {
+        {   
+            "id": article.id,
             "title": article.title,
             "author": article.user.username,
             "created_at": article.created_at
@@ -109,6 +109,7 @@ def home_view(request):
 
     board_data = [
         {
+            "id": article.id,
             "title": article.title,
             "author": article.user.username,
             "created_at": article.created_at

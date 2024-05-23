@@ -7,10 +7,10 @@
                     <img src="@/assets/img/banner/banner1.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="@/assets/img/banner/banner2.jpg" class="d-block w-100" alt="...">
+                    <img src="@/assets/img/banner/banner4.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                    <img src="@/assets/img/banner/banner3.jpg" class="d-block w-100" alt="...">
+                    <img src="@/assets/img/banner/banner2.jpg" class="d-block w-100" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -67,8 +67,8 @@
 
 .carousel-item img {
     display: block;
-    /* max-width: 600px;
-    max-height: 400px; */
+    max-width: 720px;
+    /* max-height: 400px; */
     width: auto; /* 자동 너비 조정 */
     margin: auto;
     object-fit: contain; /* 콘텐츠 비율을 유지하며 채웁니다 */

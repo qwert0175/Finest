@@ -5,14 +5,16 @@ from rest_framework import status
 from .models import Deposit, DepositOptions, Saving, SavingOptions, CreditLoan, CreditLoanOptions
 from .serializers import DepositSerializer, DepositOptionsSerializer, SavingSerializer, SavingOptionsSerializer, CreditLoanSerializer, CreditLoanOptionsSerializer
 import requests
+from django.conf import settings
 
 # Create your views here.
 @api_view(['POST'])
 def getProductsInfo(request):
-    API_KEY = '40aba2698edb26d1e441c72a37a81982'
-    deposit_url = f'http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth={API_KEY}&topFinGrpNo=020000&pageNo=1'
-    saving_url = f'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth={API_KEY}&topFinGrpNo=020000&pageNo=1'
-    creditloan_url = f'http://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json?auth={API_KEY}&topFinGrpNo=050000&pageNo=1'
+    # PRODUCT_API_KEY = '40aba2698edb26d1e441c72a37a81982'
+    PRODUCT_API_KEY = settings.PRODUCT_API_KEY
+    deposit_url = f'http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json?auth={PRODUCT_API_KEY}&topFinGrpNo=020000&pageNo=1'
+    saving_url = f'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json?auth={PRODUCT_API_KEY}&topFinGrpNo=020000&pageNo=1'
+    creditloan_url = f'http://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json?auth={PRODUCT_API_KEY}&topFinGrpNo=050000&pageNo=1'
     deposit_response = requests.get(deposit_url)
     deposit_data = deposit_response.json()
     saving_response = requests.get(saving_url)

@@ -17,7 +17,7 @@ class User(AbstractUser):
     # firstname = models.CharField(blank=True, null=True, max_length=10)
     email = models.EmailField(blank=True, null=True)
     gender = models.CharField(blank=True, null=True, max_length=2, choices=GENDER_CHOICES)
-    age = models.IntegerField(blank=True, null=True)
+    age = models.IntegerField(blank=True, default=0)
     birthday = models.DateField(blank=True, null=True)
     salary = models.IntegerField(blank=True, null=True, default=0)
     asset = models.IntegerField(blank=True, null=True, default=0)

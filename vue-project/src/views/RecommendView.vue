@@ -151,19 +151,17 @@ const fetchRecommendations = async () => {
   try {
     if (!userInfoStore.token) {
       error.value = '로그인이 필요합니다. 로그인 페이지로 이동합니다...';
-      setTimeout(() => {
-        router.push({ name: 'loginview' });
-      }, 2000);
+      router.push({ name: 'loginview' });
       return;
     }
 
     // Fetch user data
     const userData = await fetchUserInfo();
-    if (!userData.birthday || !userData.age || !userData.gender) {
+    if (!userData.birthday || !userData.gender) {
       error.value = '회원 정보 수정 페이지에서 추가 정보를 입력해주세요. 입력 페이지로 이동합니다...';
       setTimeout(() => {
         router.push({ name: 'updateinfo' });
-      }, 2000);
+      }, 1000);
     } else {
       user.value = userData;
 
