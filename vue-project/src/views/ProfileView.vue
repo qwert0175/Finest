@@ -8,7 +8,7 @@
         <h1>유저 정보</h1>
         <p><strong>아이디:</strong> {{ user.username }}</p>
         <p><strong>이메일:</strong> {{ user.email || '미등록' }}</p>
-        <p><strong>연령:</strong> {{ user.age }}세</p>
+        <p v-if="user.age"><strong>연령:</strong> {{ user.age }}세</p>
         <p><strong>성별:</strong> {{ user.gender }}</p>
         <p><strong>월 수입:</strong> {{ user.salary }}</p>
         <p><strong>자산:</strong> {{ user.asset }}</p>
@@ -99,9 +99,7 @@ const fetchRecommendations = async () => {
   try {
     if (!userInfoStore.token) { 
       error.value = '로그인이 필요합니다. 로그인 페이지로 이동합니다...';
-      setTimeout(() => {
-        router.push({ name: 'loginview' });  
-      }, 2000);
+      router.push({ name: 'loginview' });  
       return;
     }
 
@@ -116,11 +114,11 @@ const fetchRecommendations = async () => {
     const userData = userResponse.data;
 
     // Check if user has the required fields
-    if (!userData.birthday || !userData.age || !userData.gender) {
+    if (!userData.birthday || !userData.gender) {
       error.value = '회원 정보 수정 페이지에서 추가 정보를 입력해주세요. 입력 페이지로 이동합니다...';
       setTimeout(() => {
         router.push({ name: 'updateinfo' });
-      }, 2000);
+      }, 1000);
     } else {
       user.value = userData;
 

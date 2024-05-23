@@ -3,6 +3,7 @@ import requests
 import json
 from collections import OrderedDict
 from datetime import datetime, timedelta, date
+from django.conf import settings
 
 first_name_samples = '김이박최정강조윤장임'
 middle_name_samples = '민서예지도하주윤채현지'
@@ -25,13 +26,14 @@ def calculate_age(birthday, reference_date):
 DP_URL = 'http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json'
 SP_URL = 'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json'
 
-API_KEY = '40aba2698edb26d1e441c72a37a81982'
+# PRODUCT_API_KEY = '40aba2698edb26d1e441c72a37a81982'
+PRODUCT_API_KEY = settings.PRODUCT_API_KEY
 
 deposit_products = []
 saving_products = []
 
 params = {
-    'auth': API_KEY,
+    'auth': PRODUCT_API_KEY,
     'topFinGrpNo': '020000',
     'pageNo': 1,
 }

@@ -5,16 +5,16 @@
         </div>
         <form class="finest-signup-form" @submit.prevent="goToFinestSignUpView">
             <label for="username">아이디(필수, 10자 제한)</label>
-            <input type="text" id="username" maxlength="10" v-model.trim="username"><br>
+            <input type="text" id="username" maxlength="10" v-model.trim="username" required><br>
             
             <label for="email">이메일</label>
             <input type="text" id="email" v-model="email"><br>
             
             <label for="password1">비밀번호(필수, 8자~15자 이내)</label>
-            <input type="password" id="password1" maxlength="15" v-model.trim="password1"><br>
+            <input type="password" id="password1" maxlength="15" v-model.trim="password1" required><br>
 
             <label for="password2">비밀번호 확인(필수)</label>
-            <input type="password" id="password2" maxlength="15" v-model.trim="password2"><br>
+            <input type="password" id="password2" maxlength="15" v-model.trim="password2" required><br>
 
             <label for="gender">성별(일부 서비스 이용 시 필요)</label>
             <select id="gender" v-model="gender">
@@ -28,6 +28,7 @@
               class="datepicker"
               v-model="birthday" 
               :enable-time-picker="false"
+              :max-date="new Date()"
             /><br>
 
             <label for="salary">월 수입</label>
@@ -79,16 +80,17 @@
   }
 
   const birthdayFormat = (birthday) => {
-    if (!birthday) {
-      return null
-    } else {
-      const birthDate = new Date(birthday)
-      return `${birthDate.getFullYear()}-${birthDate.getMonth() + 1}-${birthDate.getDate()}`
-    }
+      if (!birthday) {
+        return null
+      } else {
+        const birthDate = new Date(birthday)
+        return `${birthDate.getFullYear()}-${birthDate.getMonth() + 1}-${birthDate.getDate()}`
+      }
   }
   
   const goToFinestSignUpView = function () {
   const age = calculateAge(birthday.value)
+  console.log(age)
   axios ({
     method: 'post',
     url: 'http://127.0.0.1:8000/api/v1/accounts/registration/',
@@ -98,7 +100,7 @@
       password1: password1.value,
       password2: password2.value,
       birthday: birthdayFormat(birthday.value),
-      age: age || null,
+      age: age,
       gender: gender.value || null,
       salary: salary.value,
       asset: asset.value,

@@ -6,11 +6,11 @@
         <form class="login-form" @submit.prevent="finestLogin">
             <div class="input-container">
                 <div class="label-text">Username</div>
-                <input class="input-content" type="Username" id="Username" name="Username" v-model="username" placeholder="아이디를 입력하세요">
+                <input class="input-content" type="Username" id="Username" name="Username" v-model="username" placeholder="아이디를 입력하세요" required>
             </div>
             <div class="input-container">
                 <div class="label-text">Password</div>
-                <input class="input-content" type="password" id="password" name="password" v-model="password" placeholder="패스워드를 입력하세요">
+                <input class="input-content" type="password" id="password" name="password" v-model="password" placeholder="패스워드를 입력하세요" required>
             </div>
             <a href="">Forgot Password?</a>
             <div class="button-container">

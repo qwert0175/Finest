@@ -16,9 +16,6 @@ export const useUserInfoStore = defineStore('userinfo', () => {
       axios({
         method: 'get',
         url: `${API_URL}/articles/`,
-        headers: {
-          Authorization: `Token ${token.value}`
-        }
       })
         .then(response => {
           articles.value = response.data

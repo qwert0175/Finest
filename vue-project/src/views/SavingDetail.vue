@@ -16,7 +16,7 @@
         <p><strong>가입대상:</strong> {{ saving.join_member }}</p>
         <p><strong>최고한도:</strong> {{ saving.max_limit || '없음' }}</p>
       </div>
-      <button @click="subscribe" :class="{ 'unsubscribe-button': isSubscribed }">
+      <button v-if="userInfoStore.token" @click="subscribe" :class="{ 'unsubscribe-button': isSubscribed }">
         {{ isSubscribed ? '탈퇴하기' : '가입하기' }}
       </button>
       <div v-for="(options, type) in groupedSavingOptions" :key="type" class="options-group">
@@ -66,7 +66,9 @@ onMounted(() => {
         type: savingOptions.value[0].rsrv_type_nm,
         term: savingOptions.value[0].save_trm
       }; // 기본 선택 값 설정
-      checkSubscription();
+      if (userInfoStore.token) {
+        checkSubscription();
+      }
     })
     .catch(err => {
       console.error(err);

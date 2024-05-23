@@ -6,7 +6,7 @@
         <span class="category-text">{{ article.category }}</span>
       </div>
       
-      <div class="article-heder-actions">
+      <div class="article-heder-actions" v-if="article.user === userInfoStore.username">
         <button @click="editArticle">수정</button> |
         <button @click="deleteArticle">삭제</button>
       </div>
@@ -21,7 +21,7 @@
           </div>
           <div class="author-details">
             <router-link :to="{ name: 'profile', params: { username: article.user } }" class="username">{{ article.user }}</router-link>
-            <p class="rank">매니저</p>
+            <!-- <p class="rank"></p> -->
           </div>
         </div>
       </div>
@@ -82,7 +82,6 @@
       <button @click="goCommunity">목록</button> 
     </div>
   </div>
-  {{ article }}
 </template>
 
 <script setup>
@@ -204,33 +203,36 @@ const isCommentAuthor = (commentUser) => {
 }
   
 onMounted(() => {
-  console.log(userInfoStore.token)
-  axios({
-    method: 'get',
-    url: `${userInfoStore.API_URL}/articles/${route.params.id}/`,
-    headers: {
-      Authorization: `Token ${userInfoStore.token}`
-    }
-  })
-    .then((response) => {
-      // console.log(response.data)
-      article.value = response.data
-      // 댓글 정보 가져오기
-      return axios({
-        method: 'get',
-        url: `${userInfoStore.API_URL}/articles/${route.params.id}/comments/`,
-        headers: {
-          Authorization: `Token ${userInfoStore.token}`
-        }
+  if (!userInfoStore.token) {
+    router.push({ name: 'loginview' })
+  } else {
+    axios({
+      method: 'get',
+      url: `${userInfoStore.API_URL}/articles/${route.params.id}/`,
+      headers: {
+        Authorization: `Token ${userInfoStore.token}`
+      }
+    })
+      .then((response) => {
+        // console.log(response.data)
+        article.value = response.data
+        // 댓글 정보 가져오기
+        return axios({
+          method: 'get',
+          url: `${userInfoStore.API_URL}/articles/${route.params.id}/comments/`,
+          headers: {
+            Authorization: `Token ${userInfoStore.token}`
+          }
+        })
       })
-    })
-    .then((response) => {
-      // 댓글 정보 설정
-      comments.value = response.data
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+      .then((response) => {
+        // 댓글 정보 설정
+        comments.value = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 })
 </script>
 

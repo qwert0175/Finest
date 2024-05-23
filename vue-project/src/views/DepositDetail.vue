@@ -16,7 +16,7 @@
         <p><strong>가입대상:</strong> {{ deposit.join_member }}</p>
         <p><strong>최고한도:</strong> {{ deposit.max_limit || '없음' }}</p>
       </div>
-      <button @click="subscribe" :class="{ 'unsubscribe-button': isSubscribed }">
+      <button v-if="userInfoStore.token" @click="subscribe" :class="{ 'unsubscribe-button': isSubscribed }">
         {{ isSubscribed ? '탈퇴하기' : '가입하기' }}
       </button>
       <div class="options-container">
@@ -59,7 +59,9 @@ onMounted(() => {
       deposit.value = res.data.deposit;
       depositOptions.value = res.data.deposit_options;
       optionState.value = depositOptions.value[0].save_trm; // 기본 선택 값 설정
-      checkSubscription();
+      if (userInfoStore.token) {
+        checkSubscription();
+      }
     })
     .catch(err => {
       console.error(err);
@@ -75,7 +77,6 @@ const checkSubscription = () => {
   .then(res => {
     const userProducts = res.data;
     isSubscribed.value = userProducts.is_subscribed;
-
   })
   .catch(err => {
     console.error(err);

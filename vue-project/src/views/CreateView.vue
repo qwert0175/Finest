@@ -28,7 +28,7 @@
 
 <script setup>
 import axios from 'axios'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserInfoStore } from '@/stores/userinfo'
 import { useRouter } from 'vue-router'
 
@@ -38,10 +38,17 @@ const title = ref(null)
 const content = ref(null)
 const router = useRouter()
 
+onMounted(() => {
+  if (store.token === null) {
+    router.push({ name: 'loginview' })
+    return
+  }
+})
+
 const createArticle = function () {
   axios({
     method: 'post',
-    url: `${store.API_URL}/articles/`,
+    url: `${store.API_URL}/articles/create/`,
     data: {
       category: category.value,
       title: title.value,

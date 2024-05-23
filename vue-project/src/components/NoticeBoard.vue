@@ -3,7 +3,9 @@
     <p class="bottom-title">{{ title }}</p>
     <ul class="post-list">
       <li v-for="(post, index) in posts" :key="index" class="post-item">
-        <span class="post-title">{{ post.title }}</span>
+        <RouterLink :to="{ name: 'DetailView', params: { id:post.id } }" class="post-link">
+          <span class="post-title">{{ post.title }}</span>
+        </RouterLink>
         <span class="post-author">
           <img src="@/assets/img/home/author_img.png" width="20px" alt="작성자">{{ post.author }}
         </span>
@@ -68,13 +70,5 @@ const props = defineProps({
   font-size: 14px;
   display: flex;
   align-items: center;
-}
-
-.icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 5px;
-  background: url('/path/to/icon.png') no-repeat center center;
-  background-size: contain;
 }
 </style>
