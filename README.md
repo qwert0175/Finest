@@ -53,14 +53,27 @@ SSAFY 11기 1학기 관통 프로젝트
 👥 조성인
 - Backend 
   - 환율 API 작성
+    - 환율정보 DB 저장 및 조회
   - 금융상품 API 작성
+    - 금융상품 정보 DB 저장 및 조회
+  - 상품 추천 알고리즘 작성
+    - 사용자의 동일 연령대, 성별의 사람들이 많이 가입한 상품 표시
 
 - Frontend
   - 메인 페이지 작성
-  - User 페이지 작성
-  - 환율계산기 제작
-  - 카카오지도 제작
-  - 상품추천 제작
+  - 프로필 페이지 작성
+    - 사용자 기본 정보
+    - 가입 상품 금리 그래프
+  - 환율계산기 기능 구현
+  - 예적금 금리비교 페이지
+    - 은행, 기간별 필터링
+    - 기간별 금리순 정렬
+  - 금융상품 상세보기 페이지 작성
+    - 예적금 가입/탈퇴 처리 구현
+  - 카카오지도 페이지 작성
+    - 주변은행 찾기
+    - 은행검색 기능
+  - 추천상품 페이지 제작
 
 - ETC
   - 최종 발표 프레젠테이션 검토 및 발표
@@ -77,7 +90,7 @@ SSAFY 11기 1학기 관통 프로젝트
 
 - Frontend
   - 메인페이지 수정 및 보완
-  - User 페이지 수정 및 보완
+  - 프로필 페이지 수정 및 보완
   - 게시판 관련 페이지 작성
     - CRUD 페이지 작성
     - 커뮤니티 페이지 작성
@@ -236,6 +249,15 @@ SSAFY 11기 1학기 관통 프로젝트
 ![Notion](https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white)
 ![Mattermost](https://img.shields.io/badge/Mattermost-0072C6?style=for-the-badge&logo=mattermost&logoColor=white)
 ![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)
+
+<br>
+<hr style="border: 1px solid #ccc;">
+
+## 📁 폴더 구조
+
+[ BACK-END ]
+
+[ FRONT-END ]
 
 <br>
 <hr style="border: 1px solid #ccc;">
