@@ -213,87 +213,81 @@ SSAFY 11기 1학기 관통 프로젝트
 
 ### 1. 회원: 회원가입(아디 비번만 작성) / 로그인 / 로그아웃 
 
-![회원](gif/1.1회원가입.gif)
-
-![회원](gif/1.2로그인.gif)
-
-![회원](gif/1.3로그아웃.gif)
+<img src="gif/1.1회원가입.gif" width="1012px" height="569.141px" alt="회원가입">
+<img src="gif/1.2로그인.gif" width="1012px" height="569.141px" alt="로그인">
+<img src="gif/1.3로그아웃.gif" width="1012px" height="569.141px" alt="로그아웃">
 
 <br>
 <hr>
 
 ### 2. 회원정보변경 : 수정 / 회원탈퇴
 
-![회원정보변경](gif/2.1회원정보수정.gif)
-
-![회원정보변경](gif/2.2회원탈퇴.gif)
+<img src="gif/2.1회원정보수정.gif" width="1012px" height="569.141px" alt="회원정보수정">
+<img src="gif/2.2회원탈퇴.gif" width="1012px" height="569.141px" alt="회원탈퇴">
 
 <br>
 <hr>
 
 ### 3. 예적금 금리비교 : 예적금 금리순 정렬 / 은행 필터링
 
-![예적금 금리비교](gif/3.금리비교전체.gif)
+<img src="gif/3.금리비교전체.gif" width="1012px" height="569.141px" alt="금리비교전체">
 
 <br>
 <hr>
 
 ### 4. 상품 상세 조회 : 상품가입(개월별 가능) / 적금 디테일 / 탈퇴하기
 
-![상품 상세 조회](gif/4.1상품가입탈퇴.gif)
-
-![상품 상세 조회](gif/4.2상품옵션변경.gif)
+<img src="gif/4.1상품가입탈퇴.gif" width="1012px" height="569.141px" alt="상품가입탈퇴">
+<img src="gif/4.2상품옵션변경.gif" width="1012px" height="569.141px" alt="상품옵션변경">
 
 <br>
 <hr>
 
 ### 5. 프로필 페이지 : 유저정보 / 내가 가입한 금융 상품 리스트 출력
 
-![프로필 페이지](gif/5.프로필페이지.gif)
+<img src="gif/5.프로필페이지.gif" width="1012px" height="569.141px" alt="프로필페이지">
 
 <br>
 <hr>
 
 ### 6. 금융 상품 추천 : 알고리즘(상품별 가입자 수)에 따라 추천 상품 리스트 출력 / 추천상품에서 가입(추천상품 목록에서 상품 사라짐)
 
-![금융 상품 추천](gif/6.추천상품.gif)
+<img src="gif/6.추천상품.gif" width="1012px" height="569.141px" alt="추천상품">
 
 <br>
 <hr>
 
 ### 7. 환율 계산기 : 양방향 환율 계산
 
-![환율 계산기](gif/7.환율계산기.gif)
+<img src="gif/7.환율계산기.gif" width="1012px" height="569.141px" alt="환율계산기">
 
 <br>
 <hr>
 
 ### 8. 은행 및 지도 검색 : 현재위치 주변은행 표시(은행클릭) & 드래그하면서 위치 탐색 / 위치 검색 / 장소 선택 시 정보 출력 / 확대해서 보다가 왼쪽 지도 리스트 버튼 클릭하면 그곳으로 이동
 
-![은행 및 지도 검색](gif/8.1주변은행찾기.gif)
-
-![은행 및 지도 검색](gif/8.2지도검색.gif)
+<img src="gif/8.1주변은행찾기.gif" width="1012px" height="569.141px" alt="주변은행찾기">
+<img src="gif/8.2지도검색.gif" width="1012px" height="569.141px" alt="지도검색">
 
 <br>
 <hr>
 
 ### 9. 게시글 검색 및 작성 : 게시글 검색 / 글쓰기 / 게시글 클릭 해서 상세페이지 들어가기
 
-![게시글 검색 및 작성](gif/9.1게시글검색.gif)
-
-![게시글 검색 및 작성](gif/9.2게시글작성.gif)
+<img src="gif/9.1게시글검색.gif" width="1012px" height="569.141px" alt="게시글검색">
+<img src="gif/9.2게시글작성.gif" width="1012px" height="569.141px" alt="게시글작성">
 
 <br>
 <hr>
 
 ### 10. 게시글 상세 : 수정&삭제(본인만 가능) / 댓글 생성 및 삭제(본인만 가능)
 
-![게시글 상세](gif/10.1게시글수정삭제.gif)
-
-![게시글 상세](gif/10.2댓글.gif)
+<img src="gif/10.1게시글수정삭제.gif" width="1012px" height="569.141px" alt="게시글수정삭제">
+<img src="gif/10.2댓글.gif" width="1012px" height="569.141px" alt="댓글">
 
 <br>
 <hr style="border: 1px solid #ccc;">
+
 
 
 
