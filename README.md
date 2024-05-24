@@ -5,6 +5,8 @@
 # Finest
 SSAFY 11기 1학기 관통 프로젝트
 
+<img src="gif/메인페이지.jpg" width="1012px" height="569.141px" alt="메인페이지">
+
 <br>
 
 
